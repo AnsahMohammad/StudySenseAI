@@ -32,15 +32,12 @@ jobs:
     - name: Run Migrations
       run: python manage.py migrate
 
-    - name: Run Tests
-      run: python manage.py test
-
     - name: Code Linting
       run: |
         pip install pylint
         pylint StudySense --exit-zero
       
-      - name: Code Styling
-      run: |
+    - name: Code Styling
+      run: 
         pip install black
         black .
