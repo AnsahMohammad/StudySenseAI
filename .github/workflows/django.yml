@@ -38,4 +38,9 @@ jobs:
     - name: Code Linting
       run: |
         pip install pylint
-        pylint your_project_directory --exit-zero
+        pylint StudySense --exit-zero
+      
+      - name: Code Styling
+      run: |
+        pip install black
+        black .
