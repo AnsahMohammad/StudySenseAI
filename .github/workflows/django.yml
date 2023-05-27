@@ -40,7 +40,7 @@ jobs:
         pip install pylint
         pylint StudySense --exit-zero
       
-      - name: Code Styling
+    - name: Code Styling
       run: |
         pip install black
         black .
