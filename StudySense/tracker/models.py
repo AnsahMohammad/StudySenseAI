@@ -7,5 +7,5 @@ class category(models.Model):
 class book(models.Model):
     name = models.CharField(max_length=50, null=False)
     category = models.CharField(max_length=50, null=False)
-    file = models.FileField(upload_to='storage/')
+    file = models.FileField()
     created_at = models.DateTimeField(auto_now_add=True)

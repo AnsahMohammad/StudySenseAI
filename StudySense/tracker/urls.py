@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import upload_pdf
+from tracker import views
 
 urlpatterns = [
-    path('upload-pdf/', upload_pdf, name='upload_pdf'),
+    path('', views.upload_pdf, name='upload_pdf'),
+    path('display/<int:pk>/', views.view_book, name='display'),
 ]

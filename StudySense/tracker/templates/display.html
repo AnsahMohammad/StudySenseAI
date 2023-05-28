@@ -1,0 +1,14 @@
+{% load static %}
+<html>
+<head>
+    <title>StudySenseAI</title>
+    <link rel="icon" href="{% static 'images/favicon.ico' %}">
+</head>
+<body>
+    <h2>PDF Detail</h2>
+    <h3>Name : {{ name }}</h3>
+    <h3>Category : {{ cat }}</h3>
+    <h3>Created at : {{ created }}</h3>
+    <embed src="{{ pdf.file.url }}" width="100%" height="500px">
+</body>
+</html>
