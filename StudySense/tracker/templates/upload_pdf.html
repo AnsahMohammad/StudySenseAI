@@ -1,0 +1,14 @@
+{% load static %}
+<html>
+<head>
+    <title>StudySenseAI</title>
+    <link rel="icon" href="{% static 'images/favicon.ico' %}">
+</head>
+<body>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>    
+</body>
+</html>
