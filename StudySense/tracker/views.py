@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
 from .forms import PDFUploadForm
-from .models import book
+from .models import Book
 
 def upload_pdf(request):
     if request.method == 'POST':
@@ -14,5 +14,5 @@ def upload_pdf(request):
     return render(request, 'upload_pdf.html', {"form": form})
 
 def view_book(request, pk):
-    pdf = book.objects.get(pk=pk)
+    pdf = Book.objects.get(pk=pk)
     return render(request, 'display.html', {'pdf': pdf, 'name':pdf.name, 'created':pdf.created_at, 'cat':pdf.category})

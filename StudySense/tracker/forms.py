@@ -1,7 +1,7 @@
-from .models import book
+from .models import Book
 from django import forms
 
 class PDFUploadForm(forms.ModelForm):
     class Meta:
-        model = book
+        model = Book
         fields = ["name", "category", "file"]
