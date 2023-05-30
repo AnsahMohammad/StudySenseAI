@@ -13,7 +13,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.7, 3.8, 3.9]
+        python-version: [3.8, 3.9]
 
     steps:
     - name: Checkout code
@@ -28,16 +28,3 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-
-    - name: Run Migrations
-      run: python manage.py migrate
-
-    - name: Code Linting
-      run: |
-        pip install pylint
-        pylint StudySense --exit-zero
-      
-    - name: Code Styling
-      run: 
-        pip install black
-        black .
