@@ -14,7 +14,7 @@ def upload_pdf(request):
         new_book = Book.objects.create(name=name, category=category_, file=file)
         return redirect("display", pk=new_book.pk)
     categories = Category.objects.all()
-    return render(request, "upload_pdf.html", {"categories": categories})
+    return render(request, "home.html", {"categories": categories})
 
 
 def view_book(request, pk):
