@@ -5,6 +5,7 @@
     <link rel="icon" href="{% static 'images/favicon.ico' %}">
 </head>
 <body>
+    <button onclick="window.location.href = '{% url 'home' %}';">Exit</button>
     <h2>PDF Detail</h2>
     <h3>Name : {{ name }}</h3>
     <h3>Category : {{ cat.name }}</h3>

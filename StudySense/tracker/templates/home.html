@@ -83,7 +83,7 @@
                 <button class="accordion">{{ cat.name }}</button>
                 <div class="panel">
                     {% for book in cat.book_set.all %}
-                        <p>{{ book.name }}</p>
+                        <button onclick="window.location.href = '{% url 'display' pk=book.id %}';">{{ book.name }}</button>
                     {% empty %}
                         <p>No books available in this category.</p>
                     {% endfor %}
