@@ -29,7 +29,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run Migrations
+    - name: Run Migrations1
+      run: python manage.py makemigrations
+
+    - name: Run Migrations2
       run: python manage.py migrate
       
     - name: Code Styling
