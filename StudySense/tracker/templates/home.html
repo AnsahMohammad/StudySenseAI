@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Side Scroll Page</title>
+    <link rel="icon" href="{% static '/images/favicon.ico' %}">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .sidebar {
+            width: 20%;
+            height: 100vh;
+            background-color: #f2f2f2;
+            overflow-y: auto;
+        }
+        .content {
+            padding-top: 10;
+            flex-grow: 1;
+            padding: 20px;
+        }
+        #title{
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .forms{
+            background-color: #cbe1f4;
+            margin: 50;
+        }
+        .form_container{
+            padding: 10;
+        }
+        .form_item{
+            padding: 10;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="dock">
+            
+        </div>
+    </div>
+    <div class="content">
+        <div>
+            <img src="{% static '/images/logo.png'%}" height="50" width="50">
+            <h1 id="title">StudySense</h1>
+        </div>
+        <div class="forms">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form_container">
+                    <div class="form_item">
+                        <label for="name">Enter the File Name:</label>
+                        <input type="text" id="name" name="name">
+                    </div>
+                    <br>
+                    <div class="form_item">
+                        <label for="cat">Select the Category:</label>
+                        <input type="text" list="categories" placeholder="Enter Here"  id="cat" name="cat"/>
+                        <datalist id="categories">
+                            {% for cat in categories %}
+                                <option value="{{ cat.name }}">{{ cat.name }}</option>
+                            {% endfor %}
+                        </datalist>
+                    </div>
+                    <br>
+                    <div class="form_item">
+                        <label for="myfile">Select a file:</label>
+                        <input type="file" id="myfile" name="myfile">
+                    </div>
+                    <br>
+                    <div class="form_item">
+                        <button type="submit">Upload</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
