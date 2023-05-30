@@ -82,7 +82,11 @@
             {% for cat in categories %}
                 <button class="accordion">{{ cat.name }}</button>
                 <div class="panel">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    {% for book in cat.book_set.all %}
+                        <p>{{ book.name }}</p>
+                    {% empty %}
+                        <p>No books available in this category.</p>
+                    {% endfor %}
                 </div>
             {% endfor %}
         </div>
