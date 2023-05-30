@@ -4,10 +4,12 @@ from .models import Book, Category
 def upload_pdf(request):
     if request.method == 'POST':
         name = request.POST.get('name')
-        category_id = request.POST.get('cat') 
+        category_name =request.POST.get('cat')
+        try:
+            category_ = Category.objects.get(name=category_name)
+        except Category.DoesNotExist:
+            category_ = Category.objects.create(name=category_name)
         file = request.FILES.get('myfile')
-
-        category_ = Category.objects.get(id=category_id)
         new_book = Book.objects.create(
             name=name,
             category=category_,
