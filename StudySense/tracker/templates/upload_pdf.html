@@ -7,7 +7,19 @@
 <body>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+        <label for="name">Enter the File Name:</label>
+        <input type="text" id="name" name="name">
+
+        <label for="cat">Select the Category:</label>
+        <select id="cat" name="cat">
+			{% for cat in categories %}
+			    <option value="{{ cat.id }}">{{ cat.name }}</option>
+			{% endfor %}
+		</select><br><br>
+
+        <label for="myfile">Select a file:</label>
+        <input type="file" id="myfile" name="myfile">
+        
         <button type="submit">Upload</button>
     </form>    
 </body>
