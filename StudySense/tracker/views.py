@@ -24,3 +24,16 @@ def view_book(request, pk):
         "display.html",
         {"pdf": pdf, "name": pdf.name, "created": pdf.created_at, "cat": pdf.category},
     )
+
+def record_time(request):
+    if request.method == "POST":
+        time_spent = float(request.POST.get('time_spent')) / 1000
+        file_name = request.POST.get('name')
+        file = Book.objects.get(name=file_name)
+        file.total_time += time_spent
+        file.save()
+        cat = file.category
+        cat.total_time += time_spent
+        cat.save()
+    categories = Category.objects.all()
+    return render(request, "home.html", {"categories": categories})

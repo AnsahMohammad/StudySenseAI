@@ -126,6 +126,12 @@
                 </div>
             </form>
         </div>
+        <div class="data">
+            <h1>Summary</h1>
+            {% for cat in categories %}
+            <h3>{{ cat.name }} - {{ cat.total_time }} Seconds</h3>
+            {% endfor %}
+        </div>
     </div>
     <script>
         var acc = document.getElementsByClassName("accordion");
