@@ -10,5 +10,6 @@ python3 manage.py migrate
 python3 manage.py runserver &
 
 cd ../studySenseClient
+npm install react-router-dom
 npm install
 npm run dev
