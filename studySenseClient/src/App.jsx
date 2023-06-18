@@ -3,6 +3,7 @@ import React, { useState } from "react";
 const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -12,15 +13,45 @@ const App = () => {
     setPassword(event.target.value);
   };
 
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Handle login logic here
+    // Handle registration logic here
+    const formData = {
+      username: username,
+      password: password,
+      email: email,
+    };
+    // Make the API request to register the user
+    // You can use fetch or axios library for making the POST request
+    // Example using fetch:
+    fetch("http://localhost:8000/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("User registered successfully");
+          window.location.href = "http://localhost:8000/";
+        } else {
+          console.error("Failed to register user");
+        }
+      })
+      .catch((error) => {
+        console.error("Error occurred while registering user:", error);
+      });
   };
 
   return (
     <div className="app">
       <div className="login-container">
-        <h2>Login</h2>
+        <h2>Sign Up</h2>
         <form onSubmit={handleSubmit}>
           <label>
             Username:
@@ -38,7 +69,11 @@ const App = () => {
               onChange={handlePasswordChange}
             />
           </label>
-          <button type="submit">Login</button>
+          <label>
+            Email:
+            <input type="email" value={email} onChange={handleEmailChange} />
+          </label>
+          <button type="submit">Sign Up</button>
         </form>
       </div>
     </div>
