@@ -32,7 +32,7 @@ const App = () => {
     })
       .then((response) => {
         if (response.ok) {
-          console.log("User registered successfully");
+          console.log("User logged-in successfully");
           window.location.href = "http://localhost:8000/";
         } else {
           console.error("Failed to register user");
