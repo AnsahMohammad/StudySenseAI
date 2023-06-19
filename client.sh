@@ -2,4 +2,4 @@
 
 cd ../studySenseClient
 npm install
-npm run dev
+npm run dev -- --port 5173

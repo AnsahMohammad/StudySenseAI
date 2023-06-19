@@ -12,4 +12,4 @@ python3 manage.py runserver &
 cd ../studySenseClient
 npm install react-router-dom
 npm install
-npm run dev
+npm run dev -- --port 5173
