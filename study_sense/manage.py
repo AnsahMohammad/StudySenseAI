@@ -7,7 +7,7 @@ import sys
 # pylint: disable=C0415
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "StudySense.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "study_sense.settings")
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

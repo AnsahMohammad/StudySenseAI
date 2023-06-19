@@ -1,5 +1,5 @@
 """
-Settings configuration for the StudySense server
+Settings configuration for the study_sense server
 """
 from pathlib import Path
 import os
@@ -39,7 +39,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "StudySense.urls"
+ROOT_URLCONF = "study_sense.urls"
 
 TEMPLATES = [
     {
@@ -57,7 +57,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "StudySense.wsgi.application"
+WSGI_APPLICATION = "study_sense.wsgi.application"
 
 DATABASES = {
     "default": {
