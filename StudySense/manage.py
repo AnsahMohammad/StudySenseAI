@@ -4,6 +4,7 @@ import os
 import sys
 
 
+# pylint: disable=C0415
 def main():
     """Run administrative tasks."""
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "StudySense.settings")

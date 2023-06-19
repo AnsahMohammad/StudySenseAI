@@ -2,7 +2,7 @@
 URL patterns config for the client_worker app
 """
 from django.urls import path
-from client_worker import views
+from . import views
 
 urlpatterns = [
     path("login", views.login_user, name="login"),

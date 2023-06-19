@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, login
-from client_worker.serializers import UserSerializer
+from .serializers import UserSerializer
 
 
 @api_view(["POST"])

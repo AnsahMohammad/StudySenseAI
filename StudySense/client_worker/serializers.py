@@ -5,6 +5,7 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 
 
+# pylint: disable=R0903
 class UserSerializer(serializers.ModelSerializer):
     """Serializer class"""
     class Meta:

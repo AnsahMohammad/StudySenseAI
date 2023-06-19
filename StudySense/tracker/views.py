@@ -16,14 +16,14 @@ def upload_pdf(request):
             category_ = Category.objects.create(name=category_name)
         file = request.FILES.get("myfile")
         new_book = Book.objects.create(name=name, category=category_, file=file)
-        return redirect("display", pk=new_book.pk)
+        return redirect("display", book_id=new_book.pk)
     categories = Category.objects.all()
     return render(request, "home.html", {"categories": categories})
 
 
-def view_book(request, pk):
+def view_book(request, book_id):
     """View which allows to view the PDF"""
-    pdf = Book.objects.get(pk=pk)
+    pdf = Book.objects.get(pk=book_id)
     return render(
         request,
         "display.html",

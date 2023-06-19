@@ -1,9 +1,9 @@
 """
 tests module for the client_worker app
 """
-from django.test import TestCase
+# from django.test import TestCase
 
 # Create your tests here.
-def nullTest():
+def dummy():
     """dummy test"""
-    pass
+    return True
