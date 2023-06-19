@@ -1,7 +1,7 @@
 """
 View module for tracker app
 """
-from django.shortcuts import render, redirect, Http404
+from django.shortcuts import render, redirect
 from .models import Book, Category
 
 
