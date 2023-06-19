@@ -6,6 +6,7 @@ class Category(models.Model):
     name = models.CharField(max_length=50, null=False)
     total_time = models.FloatField(default=0)
 
+
 class Book(models.Model):
     name = models.CharField(max_length=50, null=False, blank=False)
     category = models.ForeignKey(
