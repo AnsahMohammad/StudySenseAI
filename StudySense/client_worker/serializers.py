@@ -8,8 +8,10 @@ from django.contrib.auth.models import User
 # pylint: disable=R0903
 class UserSerializer(serializers.ModelSerializer):
     """Serializer class"""
+
     class Meta:
         """Meta Class"""
+
         model = User
         fields = ("username", "password", "email")
         extra_kwargs = {"password": {"write_only": True}}

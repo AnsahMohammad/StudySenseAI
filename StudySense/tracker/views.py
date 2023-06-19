@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from .models import Book, Category
 
 
+# pylint: disable=E1101
 def upload_pdf(request):
     """View which takes the input from the form and stores in Db"""
     if request.method == "POST":
