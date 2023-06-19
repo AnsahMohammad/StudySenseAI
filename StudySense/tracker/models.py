@@ -5,7 +5,7 @@ Defines the model for category and Book
 from django.db import models
 
 
-# Create your models here.
+# pylint: disable=R0903
 class Category(models.Model):
     """Model to store Category of the PDF"""
 

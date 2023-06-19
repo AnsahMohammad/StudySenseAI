@@ -4,6 +4,7 @@ App Module for tracker app
 from django.apps import AppConfig
 
 
+# pylint: disable=R0903
 class TrackerConfig(AppConfig):
     """App config"""
 
