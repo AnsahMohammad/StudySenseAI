@@ -1,3 +1,6 @@
+"""
+URL patterns module for tracker app
+"""
 from django.urls import path
 from tracker import views
 

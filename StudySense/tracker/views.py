@@ -1,8 +1,12 @@
+"""
+View module for tracker app
+"""
 from django.shortcuts import render, redirect, Http404
 from .models import Book, Category
 
 
 def upload_pdf(request):
+    """View which takes the input from the form and stores in Db"""
     if request.method == "POST":
         name = request.POST.get("name")
         category_name = request.POST.get("cat")
@@ -18,6 +22,7 @@ def upload_pdf(request):
 
 
 def view_book(request, pk):
+    """View which allows to view the PDF"""
     pdf = Book.objects.get(pk=pk)
     return render(
         request,
@@ -27,6 +32,7 @@ def view_book(request, pk):
 
 
 def record_time(request):
+    """View which stores the time of each category"""
     if request.method == "POST":
         time_spent = float(request.POST.get("time_spent")) / 1000
         file_name = request.POST.get("name")

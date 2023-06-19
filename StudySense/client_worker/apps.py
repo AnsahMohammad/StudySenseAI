@@ -1,3 +1,6 @@
+"""
+App module for the client_worker app
+"""
 from django.apps import AppConfig
 
 

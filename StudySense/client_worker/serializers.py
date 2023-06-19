@@ -1,3 +1,6 @@
+"""
+Serializer module for the client_worker app
+"""
 from rest_framework import serializers
 from django.contrib.auth.models import User
 

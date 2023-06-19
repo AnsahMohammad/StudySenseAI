@@ -1,3 +1,6 @@
+"""
+App Module for tracker app
+"""
 from django.apps import AppConfig
 
 
