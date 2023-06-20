@@ -13,27 +13,28 @@ import {
 from 'mdb-react-ui-kit';
 import './Login.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import illustration from './Assets/illustration.jpeg'
 
 function App() {
   return (
-    <MDBContainer className="my-5">
+    <MDBContainer fluid className="p-0 m-0 h-100">
 
-      <MDBCard>
-        <MDBRow className='g-0'>
+      <MDBCard className='h-100'>
+        <MDBRow className='g-0 '>
 
           <MDBCol md='6'>
-            <MDBCardImage src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp' alt="login form" className='rounded-start w-100'/>
+            <MDBCardImage src={illustration} alt="login form" className='rounded-start w-100'/>
           </MDBCol>
 
-          <MDBCol md='6'>
+          <MDBCol md='6 mt-5 pt-5'>
             <MDBCardBody className='d-flex flex-column'>
 
               <div className='d-flex flex-row mt-2'>
                 <MDBIcon fas icon="cubes fa-3x me-3" style={{ color: '#ff6219' }}/>
-                <span className="h1 fw-bold mb-0">/StudySenseAI</span>
+                <span className="h1 fw-bolder mb-0" style={{ fontSize: '4rem' }}>/StudySenseAI</span>
               </div>
 
-              <h5 className="fw-normal my-4 pb-3" style={{letterSpacing: '1px'}}>Sign into your account</h5>
+              <h5 className="fw-bold mt-2 pb-3" style={{letterSpacing: '1px'}}>Sign into your account</h5>
 
                 <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg' type='email' size="lg"/>
                 <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password' size="lg"/>
