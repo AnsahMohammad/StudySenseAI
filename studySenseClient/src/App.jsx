@@ -1,75 +1,43 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBCardImage } from 'mdb-react-ui-kit';
+import './App.css';
+import cover from './Assets/cover.jpg';
 
-const App = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+function App() {
+  const navigate = useNavigate();
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
+  const handleLoginClick = () => {
+    navigate('/login');
   };
 
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
+  const handleSignUpClick = () => {
+    navigate('/register');
   };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Handle registration logic here
-    const formData = {
-      username: username,
-      password: password,
-    };
-    // Make the API request to register the user
-    // You can use fetch or axios library for making the POST request
-    // Example using fetch:
-    fetch("http://localhost:8000/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => {
-        if (response.ok) {
-          console.log("User logged-in successfully");
-          window.location.href = "http://localhost:8000/";
-        } else {
-          console.error("Failed to register user");
-        }
-      })
-      .catch((error) => {
-        console.error("Error occurred while registering user:", error);
-      });
-  };
-
   return (
-    <div className="app">
-      <div className="login-container">
-        <h2>Login</h2>
-        <form onSubmit={handleSubmit}>
-          <label>
-            Username:
-            <input
-              type="text"
-              value={username}
-              onChange={handleUsernameChange}
-            />
-          </label>
-          <label>
-            Password:
-            <input
-              type="password"
-              value={password}
-              onChange={handlePasswordChange}
-            />
-          </label>
-          <button type="submit">Login</button>
-        </form>
-        <Link to="/register">Register</Link>
-      </div>
-    </div>
+    <MDBContainer fluid className="p-0 m-0">
+      <MDBRow className="align-items-center">
+        <span className="h1 fw-bold" style={{ fontSize: '4rem' }}>/StudySenseAI</span>
+        <MDBContainer className="cover-container">
+          <MDBRow>
+            <MDBCol md="6" className="mx-auto border">
+              <div className="full-width-container mb-5">
+                <MDBCardImage src={cover} alt="cover pic" className='rounded-start w-100' />
+              </div>
+              <MDBRow>
+                <MDBCol md="6">
+                  <button className="btn btn-dark mb-4 px-5 w-100" size="lg" onClick={handleLoginClick}>Login</button>
+                </MDBCol>
+                <MDBCol md="6">
+                  <button className="btn btn-dark mb-4 px-5 w-100" size="lg" onClick={handleSignUpClick}>Signup</button>
+                </MDBCol>
+              </MDBRow>
+            </MDBCol>
+          </MDBRow>
+        </MDBContainer>
+      </MDBRow>
+    </MDBContainer>
   );
-};
+}
 
 export default App;

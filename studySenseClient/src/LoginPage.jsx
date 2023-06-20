@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   MDBBtn,
   MDBContainer,
@@ -16,6 +17,48 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import illustration from './Assets/illustration.jpeg'
 
 function App() {
+	const [username, setUsername] = useState("");
+	const [password, setPassword] = useState("");
+
+	const handleUsernameChange = (event) => {
+		setUsername(event.target.value);
+	};
+
+	const handlePasswordChange = (event) => {
+		setPassword(event.target.value);
+	};
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		// Handle registration logic here
+		const formData = {
+		username: username,
+		password: password,
+		};
+		// Make the API request to register the user
+		// You can use fetch or axios library for making the POST request
+		// Example using fetch:
+		fetch("http://localhost:8000/api/login", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(formData),
+		})
+		.then((response) => {
+			if (response.ok) {
+			console.log("User logged-in successfully");
+			window.location.href = "http://localhost:8000/";
+			} else {
+			console.error("Failed to Authenticate");
+			}
+		})
+		.catch((error) => {
+			console.log("Login Failed")
+			console.error("Error occurred while registering user:", error);
+		});
+	};
+
   return (
     <MDBContainer fluid className="p-0 m-0 h-100">
 
@@ -36,12 +79,12 @@ function App() {
 
               <h5 className="fw-bold mt-2 pb-3" style={{letterSpacing: '1px'}}>Sign into your account</h5>
 
-                <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg' type='email' size="lg"/>
-                <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password' size="lg"/>
+                <MDBInput wrapperClass='mb-4' value={username} onChange={handleUsernameChange} label='Username' id='formControlLg' type='email' size="lg"/>
+                <MDBInput wrapperClass='mb-4' label='Password' value={password} onChange={handlePasswordChange} id='formControlLg' type='Password' size="lg"/>
 
-              <MDBBtn className="mb-4 px-5" color='dark' size='lg'>Login</MDBBtn>
+			  <button className="btn btn-dark mb-4 px-5" size="lg" onClick={handleSubmit}>Login</button>
               <a className="small text-muted" href="#!">Forgot password?</a>
-              <p className="mb-5 pb-lg-2" style={{color: '#393f81'}}>Don't have an account? <a href="#!" style={{color: '#393f81'}}>Register here</a></p>
+              <p className="mb-5 pb-lg-2" style={{color: '#393f81'}}>Don't have an account? <Link to="/register">Register here</Link></p>
 
               <div className='d-flex flex-row justify-content-start'>
                 <a href="#!" className="small text-muted me-1">Terms of use.</a>
