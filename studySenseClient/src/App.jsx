@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBCardImage } from 'mdb-react-ui-kit';
-import './App.css';
+import './Styling/App.css';
 import cover from './Assets/cover.jpg';
 
 function App() {
@@ -21,6 +21,7 @@ function App() {
         <MDBContainer className="cover-container">
           <MDBRow>
             <MDBCol md="6" className="mx-auto border">
+              <span className="h3 fw-bold" style={{ fontSize: '3rem' }}>Oops, looks like you're lost !</span>
               <div className="full-width-container mb-5">
                 <MDBCardImage src={cover} alt="cover pic" className='rounded-start w-100' />
               </div>
