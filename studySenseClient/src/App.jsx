@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MDBContainer, MDBRow, MDBCol, MDBBtn, MDBCardImage } from 'mdb-react-ui-kit';
-import './App.css';
+import './Styling/App.css';
 import cover from './Assets/cover.jpg';
 
 function App() {

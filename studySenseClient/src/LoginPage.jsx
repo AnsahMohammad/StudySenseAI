@@ -12,7 +12,7 @@ import {
   MDBInput
 }
 from 'mdb-react-ui-kit';
-import './Login.css'
+import './Styling/Login.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import illustration from './Assets/illustration.jpeg'
 
