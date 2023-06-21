@@ -12,7 +12,7 @@ ReactDOM.render(
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/error" element={<App />} />
+      <Route path="*" element={<App />} />
     </Routes>
   </Router>,
   document.getElementById("root")
