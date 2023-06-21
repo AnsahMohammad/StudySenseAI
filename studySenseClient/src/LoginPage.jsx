@@ -14,7 +14,7 @@ import {
 from 'mdb-react-ui-kit';
 import './Styling/Login.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import illustration from './Assets/illustration.jpeg'
+import illustration from './Assets/login.jpeg'
 
 function App() {
 	const [username, setUsername] = useState("");
