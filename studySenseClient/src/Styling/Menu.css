@@ -1,0 +1,23 @@
+.custom-row {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.custom-col {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.secondary {
+  background-color: #dedede;
+  flex-basis: 20%;
+}
+
+.primary {
+    background-color: #eaeaea;
+    flex-basis: 80%;
+}
