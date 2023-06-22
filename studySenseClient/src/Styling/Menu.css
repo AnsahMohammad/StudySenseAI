@@ -1,23 +1,43 @@
 .custom-row {
-  display: flex;
-  width: 100%;
-  height: 100%;
+  height: 100vh;
 }
 
 .custom-col {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .secondary {
-  background-color: #dedede;
+  background-color: #f8f9fa;
   flex-basis: 20%;
+  width: 20%;
 }
 
 .primary {
-    background-color: #eaeaea;
-    flex-basis: 80%;
+  background-color: #ffffff; /* Notion's primary color */
+  flex-basis: 80%;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.custom-col h2 {
+  margin-bottom: 20px;
+}
+
+.custom-col ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.custom-col li {
+  margin-bottom: 10px;
+}
+
+.secondary-accordion {
+  width: 100%;
 }
