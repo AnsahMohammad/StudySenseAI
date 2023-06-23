@@ -67,3 +67,7 @@
 .selected {
   background-color: #d6d6d6;
 }
+
+.btn-red{
+  border-color: red;
+}

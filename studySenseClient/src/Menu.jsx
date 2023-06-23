@@ -13,12 +13,34 @@ function App() {
 		setSelectedItem(itemName);
 	};
 
+	const logout = (event) => {
+		event.preventDefault();
+		fetch("http://localhost:8000/api/logout", {
+		  method: "POST",
+		  headers: {
+			"Content-Type": "application/json",
+		  },
+		})
+		  .then((response) => {
+			if (response.ok) {
+			  console.log("User logged out successfully");
+			  window.location.href = "/";
+			} else {
+			  console.error("Failed to logout the user");
+			}
+		  })
+		  .catch((error) => {
+			console.error("Error occurred while signing out:", error);
+		  });
+	  };
+
 	return (
 		<MDBContainer fluid className="p-0 m-0 h-100">
 			<MDBRow className="main-page">
 				<MDBCol className="main-border secondary p-0">
-					<MDBContainer className="user-tab">
-						<p>{user.username} - {user.email}</p>
+					<MDBContainer className="user-tab flex">
+					<span>{user.username} - {user.email}</span>
+					<button className="btn btn-red" onClick={logout}>Logout</button>
 					</MDBContainer>
 					<div className="secondary-accordion">
 						<MDBAccordion initialActive={1} className="w-100">
