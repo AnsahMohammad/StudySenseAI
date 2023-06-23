@@ -1,12 +1,13 @@
-.custom-row {
+.main-page {
   height: 100vh;
+  padding: 0 0.8%;
 }
 
-.custom-col {
-  padding: 20px;
+.main-border {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  padding-left: 10px;
 }
 
 .secondary {
@@ -24,20 +25,49 @@
   align-items: flex-start;
 }
 
-.custom-col h2 {
+.main-border h2 {
   margin-bottom: 20px;
 }
 
-.custom-col ul {
+.main-border ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-.custom-col li {
+.main-border li {
   margin-bottom: 10px;
 }
 
 .secondary-accordion {
   width: 100%;
+}
+
+.drop-item h2 {
+  margin: 0;
+}
+
+.accordion-body{
+  padding: 0;
+}
+
+.user-tab {
+  padding-left: 10px;
+}
+
+.selectable-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.selectable-item:hover {
+  background-color: #ebebeb;
+}
+
+.selected {
+  background-color: #d6d6d6;
+}
+
+.btn-red{
+  border-color: red;
 }

@@ -4,7 +4,7 @@ View handler for the client_worker app
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .serializers import UserSerializer
 
 
@@ -32,3 +32,9 @@ def login_user(request):
                 "email": user.email
             })
     return Response({"message": "Invalid username or password."}, status=400)
+
+@api_view(["POST"])
+def logout_user(request):
+    """View to logout the user"""
+    logout(request)
+    return Response({"message": "Logout successful."})
