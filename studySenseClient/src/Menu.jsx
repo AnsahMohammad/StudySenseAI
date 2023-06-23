@@ -1,14 +1,19 @@
 import React from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBAccordion, MDBAccordionItem } from "mdb-react-ui-kit";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Cookies from 'universal-cookie';
 import "./Styling/Menu.css";
 
 function App() {
+  const cookies = new Cookies();
+  const user = cookies.get('user');
+
   return (
     <MDBContainer fluid className="p-0 m-0 h-100">
       <MDBRow className="main-page">
         <MDBCol className="main-border secondary">
-          <h2>DOCK</h2>
+          <h2>{user.username}</h2>
+          <p>Email: {user.email}</p>
           <div className="secondary-accordion">
             <MDBAccordion initialActive={1} className="w-100">
               <MDBAccordionItem collapseId={1} headerTitle="MATH">

@@ -26,5 +26,9 @@ def login_user(request):
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
-        return Response({"message": "Login successful."})
+        return Response({
+                "message": "Login successful.",
+                "username": user.username,
+                "email": user.email
+            })
     return Response({"message": "Invalid username or password."}, status=400)

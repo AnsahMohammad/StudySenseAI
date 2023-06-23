@@ -1,71 +1,153 @@
-import React from "react";
-import { MDBContainer, MDBRow, MDBCol, MDBBtn } from "mdb-react-ui-kit";
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StudySense</title>
+    <link rel="icon" href="{% static '/images/favicon.ico' %}">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .sidebar {
+            width: 20%;
+            height: 100vh;
+            background-color: #f2f2f2;
+            overflow-y: auto;
+        }
+        .content {
+            padding-top: 10;
+            flex-grow: 1;
+            padding: 20px;
+        }
+        #title{
+            text-align: center;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        .forms{
+            background-color: #cbe1f4;
+            margin: 50;
+        }
+        .form_container{
+            padding: 10;
+        }
+        .form_item{
+            padding: 10;
+        }
+        .accordion {
+            background-color: #eee;
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            transition: 0.4s;
+        }
 
-function App() {
-  return (
-    <MDBContainer fluid className="p-0 m-0 d-flex">
-      <MDBCol className="bg-secondary p-3" style={{ width: "20%", height: "100vh", overflowY: "auto" }}>
-        <div className="header">
-          <h2>Categories</h2>
-        </div>
-        {categories.map((cat) => (
-          <div key={cat.id}>
-            <button className="accordion">{cat.name}</button>
-            <div className="panel">
-              {cat.book_set.length > 0 ? (
-                cat.book_set.map((book) => (
-                  <button
-                    key={book.id}
-                    onClick={() => window.location.href = `display?book_id=${book.id}`}
-                  >
-                    {book.name}
-                  </button>
-                ))
-              ) : (
-                <p>No books available in this category.</p>
-              )}
-            </div>
-          </div>
-        ))}
-      </MDBCol>
-      <MDBCol className="p-3" style={{ width: "80%" }}>
-        <div className="d-flex align-items-center">
-          <img src="/static/images/logo.png" height="50" width="50" alt="Logo" />
-          <h1 className="mx-3">StudySense</h1>
-        </div>
-        <div className="bg-primary p-3">
-          <form method="POST" encType="multipart/form-data">
-            <div className="form-group">
-              <label htmlFor="name">Enter the File Name:</label>
-              <input type="text" className="form-control" id="name" name="name" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="cat">Select the Category:</label>
-              <input list="categories" placeholder="Enter Here" className="form-control" id="cat" name="cat" />
-              <datalist id="categories">
-                {categories.map((cat) => (
-                  <option key={cat.id} value={cat.name} />
-                ))}
-              </datalist>
-            </div>
-            <div className="form-group">
-              <label htmlFor="myfile">Select a file:</label>
-              <input type="file" className="form-control" id="myfile" name="myfile" />
-            </div>
-            <MDBBtn type="submit">Upload</MDBBtn>
-          </form>
-        </div>
-        <div className="p-3">
-          <h1>Summary</h1>
-          {categories.map((cat) => (
-            <h3 key={cat.id}>
-              {cat.name} - {cat.total_time} Seconds
-            </h3>
-          ))}
-        </div>
-      </MDBCol>
-    </MDBContainer>
-  );
-}
+        .active, .accordion:hover {
+            background-color: #ccc;
+        }
 
-export default App;
+        .accordion:after {
+            content: '\002B';
+            color: #777;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+
+        .active:after {
+            content: "\2212";
+        }
+
+        .panel {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="dock">
+            <div class="header">
+                <h2>Categories</h2>
+            </div>
+            {% for cat in categories %}
+                <button class="accordion">{{ cat.name }}</button>
+                <div class="panel">
+                    {% for book in cat.book_set.all %}
+                        <button onclick="window.location.href = '{% url 'display' book_id=book.id %}';">{{ book.name }}</button>
+                    {% empty %}
+                        <p>No books available in this category.</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="content">
+        <div>
+            <img src="{% static '/images/logo.png'%}" height="50" width="50">
+            <h1 id="title">StudySense</h1>
+        </div>
+        <div class="forms">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form_container">
+                    <div class="form_item">
+                        <label for="name">Enter the File Name:</label>
+                        <input type="text" id="name" name="name">
+                    </div>
+                    <br>
+                    <div class="form_item">
+                        <label for="cat">Select the Category:</label>
+                        <input type="text" list="categories" placeholder="Enter Here"  id="cat" name="cat"/>
+                        <datalist id="categories">
+                            {% for cat in categories %}
+                                <option value="{{ cat.name }}">{{ cat.name }}</option>
+                            {% endfor %}
+                        </datalist>
+                    </div>
+                    <br>
+                    <div class="form_item">
+                        <label for="myfile">Select a file:</label>
+                        <input type="file" id="myfile" name="myfile">
+                    </div>
+                    <br>
+                    <div class="form_item">
+                        <button type="submit">Upload</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="data">
+            <h1>Summary</h1>
+            {% for cat in categories %}
+            <h3>{{ cat.name }} - {{ cat.total_time }} Seconds</h3>
+            {% endfor %}
+        </div>
+    </div>
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+        
+        for (i = 0; i < acc.length; i++) {
+          acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+              panel.style.maxHeight = null;
+            } else {
+              panel.style.maxHeight = panel.scrollHeight + "px";
+            } 
+          });
+        }
+    </script>
+</body>
+</html>
