@@ -1,9 +1,10 @@
 .main-page {
   height: 100vh;
+  padding-left: 2;
+  padding: 0% 0% 0% 0.8%;
 }
 
 .main-border {
-  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -40,4 +41,12 @@
 
 .secondary-accordion {
   width: 100%;
+}
+
+.drop-item h2 {
+  margin: 0;
+}
+
+.user-tab{
+  padding-left: 10;
 }
