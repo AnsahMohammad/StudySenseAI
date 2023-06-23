@@ -1,7 +1,6 @@
 .main-page {
   height: 100vh;
-  padding-left: 2;
-  padding: 0% 0% 0% 0.8%;
+  padding: 0 0.8%;
 }
 
 .main-border {
@@ -47,6 +46,19 @@
   margin: 0;
 }
 
-.user-tab{
-  padding-left: 10;
+.user-tab {
+  padding-left: 10px;
+}
+
+.selectable-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.selectable-item:hover {
+  background-color: #ebebeb;
+}
+
+.selected {
+  background-color: #d6d6d6;
 }
