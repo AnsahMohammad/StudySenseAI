@@ -23,7 +23,7 @@ function App() {
 					<div className="secondary-accordion">
 						<MDBAccordion initialActive={1} className="w-100">
 							<MDBAccordionItem collapseId={1} className="drop-item" headerTitle="MATH">
-								<MDBContainer fluid className="m-0 file-holder">
+								<MDBContainer fluid className="m-0 file-holder p-0">
 									<div className={`selectable-item ${selectedItem === 'Algebra' ? 'selected' : ''}`} onClick={() => handleItemClick('Algebra')}>
 										Algebra
 									</div>
