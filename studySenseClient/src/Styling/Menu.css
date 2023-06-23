@@ -1,8 +1,8 @@
-.custom-row {
+.main-page {
   height: 100vh;
 }
 
-.custom-col {
+.main-border {
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -24,17 +24,17 @@
   align-items: flex-start;
 }
 
-.custom-col h2 {
+.main-border h2 {
   margin-bottom: 20px;
 }
 
-.custom-col ul {
+.main-border ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-.custom-col li {
+.main-border li {
   margin-bottom: 10px;
 }
 

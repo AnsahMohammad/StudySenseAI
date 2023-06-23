@@ -6,8 +6,8 @@ import "./Styling/Menu.css";
 function App() {
   return (
     <MDBContainer fluid className="p-0 m-0 h-100">
-      <MDBRow className="custom-row">
-        <MDBCol className="custom-col secondary">
+      <MDBRow className="main-page">
+        <MDBCol className="main-border secondary">
           <h2>DOCK</h2>
           <div className="secondary-accordion">
             <MDBAccordion initialActive={1} className="w-100">
@@ -28,7 +28,7 @@ function App() {
             </MDBAccordion>
           </div>
         </MDBCol>
-        <MDBCol className="custom-col primary">
+        <MDBCol className="main-border primary">
           <h1>MAIN</h1>
         </MDBCol>
       </MDBRow>
