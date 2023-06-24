@@ -14,11 +14,17 @@ source env/bin/activate
 pip3 install -r requirements.txt
 
 cd study_sense
+export DJANGO_KEY="test"
 python3 manage.py makemigrations
 python3 manage.py migrate
 python3 manage.py runserver &
+sleep 5
 
 echo -e "${GREEN}Starting React${NC}"
 cd ../studySenseClient
+# npm install mdb-react-ui-kit
+# npm install react-cookie
+# npm install bootstrap
+# npm install universal-cookie
 npm install
 npm run dev -- --port 5173

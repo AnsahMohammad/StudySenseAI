@@ -2,6 +2,7 @@
 Model Module for tracker app.
 Defines the model for category and Book
 """
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -11,15 +12,15 @@ class Category(models.Model):
 
     name = models.CharField(max_length=50, null=False)
     total_time = models.FloatField(default=0)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class Book(models.Model):
     """Model to store the PDF"""
 
     name = models.CharField(max_length=50, null=False, blank=False)
-    category = models.ForeignKey(
-        Category, on_delete=models.CASCADE, null=False, blank=False
-    )
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False, blank=False)
     file = models.FileField()
     created_at = models.DateTimeField(auto_now_add=True)
     total_time = models.FloatField(default=0)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
