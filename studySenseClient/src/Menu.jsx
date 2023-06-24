@@ -58,7 +58,7 @@ function App() {
 								</MDBContainer>
 							</MDBAccordionItem>
 							<MDBAccordionItem collapseId={2} className="drop-item" headerTitle="Physics">
-								<MDBContainer fluid className="m-0 file-holder">
+								<MDBContainer fluid className="m-0 file-holder p-0">
 									<div className={`selectable-item ${selectedItem === 'Physics Algebra' ? 'selected' : ''}`} onClick={() => handleItemClick('Physics Algebra')}>
 										Physics Algebra
 									</div>
