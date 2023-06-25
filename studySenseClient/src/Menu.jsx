@@ -86,38 +86,17 @@ function App() {
           </MDBContainer>
           <div className="secondary-accordion">
             <MDBAccordion initialActive={1} className="w-100">
-              <MDBAccordionItem
-                collapseId={1}
-                className="drop-item"
-                headerTitle="MATH"
-              >
-                <MDBContainer fluid className="m-0 file-holder p-0">
-                  <div
-                    className={`selectable-item ${
-                      selectedItem === "Algebra" ? "selected" : ""
-                    }`}
-                    onClick={() => handleItemClick("Algebra")}
-                  >
-                    Algebra
-                  </div>
-                  <div
-                    className={`selectable-item ${
-                      selectedItem === "Geometry" ? "selected" : ""
-                    }`}
-                    onClick={() => handleItemClick("Geometry")}
-                  >
-                    Geometry
-                  </div>
-                  <div
-                    className={`selectable-item ${
-                      selectedItem === "Calculus" ? "selected" : ""
-                    }`}
-                    onClick={() => handleItemClick("Calculus")}
-                  >
-                    Calculus
-                  </div>
-                </MDBContainer>
-              </MDBAccordionItem>
+              {categories &&
+                categories.map((category, index) => (
+                  <MDBAccordionItem
+                    key={index}
+                    collapseId={index + 1}
+                    className="drop-item"
+                    headerTitle={category.name}>
+                  </MDBAccordionItem>
+                ))}
+            </MDBAccordion>
+            <MDBAccordion initialActive={1} className="w-100">
               <MDBAccordionItem
                 collapseId={2}
                 className="drop-item"
