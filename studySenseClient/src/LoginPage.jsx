@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Cookies } from 'react-cookie';
 import { Link } from "react-router-dom";
 import {
@@ -20,6 +20,9 @@ import illustration from './Assets/login.jpeg'
 function App() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const cookies = new Cookies();
+
+	cookies.remove('user')
 
 	const handleUsernameChange = (event) => {
 		setUsername(event.target.value);
@@ -49,7 +52,6 @@ function App() {
 		  .then((response) => {
 			if (response.ok) {
 			  console.log("User logged-in successfully");
-			  const cookies = new Cookies();
 			  response.json().then((data) => {
 				cookies.set('user', data, { path: '/', sameSite: 'None', secure: true });
 				console.log(data)
