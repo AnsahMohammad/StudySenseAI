@@ -85,51 +85,20 @@ function App() {
             </button>
           </MDBContainer>
           <div className="secondary-accordion">
-            <MDBAccordion initialActive={1} className="w-100">
-              {categories &&
-                categories.map((category, index) => (
-                  <MDBAccordionItem
-                    key={index}
-                    collapseId={index + 1}
-                    className="drop-item"
-                    headerTitle={category.name}>
-                  </MDBAccordionItem>
-                ))}
-            </MDBAccordion>
-            <MDBAccordion initialActive={1} className="w-100">
-              <MDBAccordionItem
-                collapseId={2}
-                className="drop-item"
-                headerTitle="Physics"
-              >
-                <MDBContainer fluid className="m-0 file-holder p-0">
-                  <div
-                    className={`selectable-item ${
-                      selectedItem === "Physics Algebra" ? "selected" : ""
-                    }`}
-                    onClick={() => handleItemClick("Physics Algebra")}
-                  >
-                    Physics Algebra
-                  </div>
-                  <div
-                    className={`selectable-item ${
-                      selectedItem === "Physics Geometry" ? "selected" : ""
-                    }`}
-                    onClick={() => handleItemClick("Physics Geometry")}
-                  >
-                    Physics Geometry
-                  </div>
-                  <div
-                    className={`selectable-item ${
-                      selectedItem === "Physics Calculus" ? "selected" : ""
-                    }`}
-                    onClick={() => handleItemClick("Physics Calculus")}
-                  >
-                    Physics Calculus
-                  </div>
-                </MDBContainer>
-              </MDBAccordionItem>
-            </MDBAccordion>
+			<MDBAccordion initialActive={1} className="w-100">
+			{categories &&
+				categories.categories.map((category, index) => (
+				<MDBAccordionItem key={index} collapseId={index + 1} className="drop-item" headerTitle={category.name}>
+					<MDBContainer fluid className="m-0 file-holder p-0">
+					{categories.category_data[category.name].map((book, bookIndex) => (
+						<div key={bookIndex} className="selectable-item">
+						{book.name}
+						</div>
+					))}
+					</MDBContainer>
+				</MDBAccordionItem>
+				))}
+			</MDBAccordion>
           </div>
         </MDBCol>
         <MDBCol className="main-border primary">

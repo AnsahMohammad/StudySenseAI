@@ -8,7 +8,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from .models import Book, Category
 from django.contrib.auth.models import User
-from .serializers import CategorySerializer
+from .serializers import CategorySerializer, BookSerializer
 
 
 # pylint: disable=E1101
@@ -59,5 +59,13 @@ def fetch_categories(request):
     print(f"{username} is requesting categories")
     user = User.objects.get(username=username)
     categories = Category.objects.filter(user=user)
+    category_data = {}
+
+    for category in categories:
+        books = Book.objects.filter(category=category)
+        book_serializer = BookSerializer(books, many=True)
+        category_data[category.name] = book_serializer.data
+
     serializer = CategorySerializer(categories, many=True)
-    return Response(serializer.data)
+    response_data = {"categories": serializer.data, "category_data": category_data}
+    return Response(response_data)
