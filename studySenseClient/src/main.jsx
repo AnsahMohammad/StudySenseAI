@@ -3,9 +3,9 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import App from "./App";
 import Register from "./Register";
-import Login from './LoginPage';
-import Menu from './Menu';
-import './Styling/page.css'
+import Login from "./LoginPage";
+import Menu from "./Menu";
+import "./Styling/page.css";
 
 ReactDOM.render(
   <Router>
