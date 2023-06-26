@@ -71,3 +71,48 @@
 .btn-red{
   border-color: red;
 }
+
+.pdf-document {
+  --scale-factor: 1;
+}
+
+/* Styles for the container holding the PDF viewer */
+.pdf-container {
+  width: 100%;
+  height: 600px;
+}
+
+/* Styles for the individual pages in the PDF */
+.pdf-page {
+  display: block;
+  margin: 0 auto;
+}
+
+/* Styles for the text layer within the PDF viewer */
+.pdf-text-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Styles for the text within the text layer */
+.pdf-text-layer-text {
+  font-size: 12px;
+  color: #000;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 2px;
+}
+
+/* Styles for the annotation layer within the PDF viewer */
+.pdf-annotation-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+

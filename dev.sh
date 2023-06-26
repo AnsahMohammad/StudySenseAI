@@ -25,6 +25,6 @@ cd ../studySenseClient
 # npm install mdb-react-ui-kit
 # npm install react-cookie
 # npm install bootstrap
-# npm install universal-cookie
+# npm install react-pdf @react-pdf/renderer
 npm install
 npm run dev -- --port 5173

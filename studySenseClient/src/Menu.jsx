@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {
-  MDBContainer,
-  MDBRow,
-  MDBCol,
-  MDBAccordion,
-  MDBAccordionItem,
-} from "mdb-react-ui-kit";
+import { MDBContainer, MDBRow, MDBCol, MDBAccordion, MDBAccordionItem } from "mdb-react-ui-kit";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Cookies } from "react-cookie";
+import { Document, Page, pdfjs } from 'react-pdf';
 import "./Styling/Menu.css";
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import 'react-pdf/dist/esm/Page/TextLayer.css';
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function App() {
   const cookies = new Cookies();
@@ -20,9 +18,12 @@ function App() {
 
   const [selectedItem, setSelectedItem] = useState(null);
   const [categories, setCategories] = useState(null);
+  const [selectedPDFUrl, setSelectedPDFUrl] = useState(null);
 
-  const handleItemClick = (itemName) => {
+  const handleItemClick = (itemName, itemURL) => {
     setSelectedItem(itemName);
+    itemURL = "http://localhost:8000" + itemURL;
+    setSelectedPDFUrl(itemURL);
   };
 
   const logout = (event) => {
@@ -89,11 +90,7 @@ function App() {
               {categories &&
                 categories.categories.map((category, index) => (
                   <MDBAccordionItem
-                    key={index}
-                    collapseId={index + 1}
-                    className="drop-item"
-                    headerTitle={category.name}
-                  >
+                    key={index} collapseId={index + 1} className="drop-item" headerTitle={category.name}>
                     <MDBContainer fluid className="m-0 file-holder p-0">
                       {categories.category_data[category.name].map((book, bookIndex) => (
                         <div
@@ -101,7 +98,7 @@ function App() {
                           className={`selectable-item ${
                             selectedItem === book.name ? "selected" : ""
                           }`}
-                          onClick={() => handleItemClick(book.name)}
+                          onClick={() => handleItemClick(book.name, book.file)}
                         >
                           {book.name}
                         </div>
@@ -113,8 +110,20 @@ function App() {
           </div>
         </MDBCol>
         <MDBCol className="main-border primary">
-          <h1>Welcome {user.username}</h1>
-          {selectedItem && <h2>{selectedItem}</h2>}
+          {selectedItem && (
+            <div>
+              <h2>{selectedItem}</h2>
+              <Document file={selectedPDFUrl}
+                error={
+                  <p>
+                    Unable to display PDF. Please{" "}
+                    <a href={selectedPDFUrl} target="_blank" rel="noopener noreferrer"> download </a>{" "} it.
+                  </p>
+                  } className="pdf-container" >
+                <Page pageNumber={1} className="pdf-page" renderTextLayer={false} />
+              </Document>
+            </div>
+          )}
         </MDBCol>
       </MDBRow>
     </MDBContainer>
