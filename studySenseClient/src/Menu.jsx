@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MDBContainer, MDBRow, MDBCol, MDBAccordion, MDBAccordionItem } from "mdb-react-ui-kit";
+import { MDBContainer, MDBRow, MDBCol, MDBAccordion, MDBAccordionItem, MDBBtn } from "mdb-react-ui-kit";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Cookies } from "react-cookie";
 import { Document, Page, pdfjs } from 'react-pdf';
@@ -7,6 +7,31 @@ import "./Styling/Menu.css";
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
+const SelectedItem = ({ selectedItem, selectedPDFUrl }) => {
+	return (
+		<div>
+		<h2>{selectedItem}</h2>
+		<Document
+			file={selectedPDFUrl}
+			error={
+			<p>
+				Unable to display PDF. Please{" "}
+				<a href={selectedPDFUrl} target="_blank" rel="noopener noreferrer">download</a>{" "}
+				it.
+			</p>
+			}
+			className="pdf-container">
+			<Page pageNumber={1} className="pdf-page" renderTextLayer={false} />
+		</Document>
+		</div>
+	);
+};
+  
+// Component for the default home display
+const Home = () => {
+return <h1>Hi</h1>;
+};
 
 function App() {
   const cookies = new Cookies();
@@ -110,20 +135,13 @@ function App() {
           </div>
         </MDBCol>
         <MDBCol className="main-border primary">
-          {selectedItem && (
-            <div>
-              <h2>{selectedItem}</h2>
-              <Document file={selectedPDFUrl}
-                error={
-                  <p>
-                    Unable to display PDF. Please{" "}
-                    <a href={selectedPDFUrl} target="_blank" rel="noopener noreferrer"> download </a>{" "} it.
-                  </p>
-                  } className="pdf-container" >
-                <Page pageNumber={1} className="pdf-page" renderTextLayer={false} />
-              </Document>
-            </div>
-          )}
+          {(() => {
+            if (selectedItem) {
+              return <SelectedItem selectedItem={selectedItem} selectedPDFUrl={selectedPDFUrl} />;
+            } else {
+              return <Home />;
+            }
+          })()}
         </MDBCol>
       </MDBRow>
     </MDBContainer>
