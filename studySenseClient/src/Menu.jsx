@@ -41,9 +41,9 @@ function App() {
     window.location.href = "http://localhost:5173/";
   }
 
+  const [selectedPDFUrl, setSelectedPDFUrl] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
   const [categories, setCategories] = useState(null);
-  const [selectedPDFUrl, setSelectedPDFUrl] = useState(null);
   const [newCategory, setNewCategory] = useState("");
   const [categoriesLength, setCategoriesLength] = useState(0);
 
@@ -52,12 +52,63 @@ function App() {
   };
 
   const handleAddCategory = (event) => {
-    event.preventDefault();
-    // Add logic to handle category submission and update state
-    console.log("New category:", newCategory);
-    setCategoriesLength((prevLength) => prevLength + 1);
-    setNewCategory("");
+	event.preventDefault();
+	console.log("New category:", newCategory);
+	setCategoriesLength((prevLength) => prevLength + 1);
+	setNewCategory("");
+	fetch("http://localhost:8000/register_categories/", {
+	  method: "POST",
+	  headers: {
+		"Content-Type": "application/json",
+	  },
+	  body: JSON.stringify({
+		username: user.username,
+		category: newCategory,
+	  }),
+	})
+	  .then((response) => {
+		if (!response.ok) {
+		  throw new Error("Request failed with status: " + response.status);
+		}
+		return response.json();
+	  })
+	  .then((data) => {
+		console.log(data.message);
+		fetchCategories();
+	  })
+	  .catch((error) => {
+		console.error("Error occurred while fetching categories:", error);
+	  });
   };
+  
+  const fetchCategories = () => {
+	fetch("http://localhost:8000/categories/", {
+	  method: "POST",
+	  headers: {
+		"Content-Type": "application/json",
+	  },
+	  body: JSON.stringify({
+		username: user.username,
+	  }),
+	})
+	  .then((response) => {
+		if (!response.ok) {
+		  throw new Error("Request failed with status: " + response.status);
+		}
+		return response.json();
+	  })
+	  .then((data) => {
+		setCategories(data);
+		setCategoriesLength(data.categories.length);
+	  })
+	  .catch((error) => {
+		console.error("Error occurred while fetching categories:", error);
+	  });
+  };
+  
+  useEffect(() => {
+	fetchCategories();
+  }, []);
 
   const handleItemClick = (itemName, itemURL) => {
     setSelectedItem(itemName);
@@ -86,32 +137,6 @@ function App() {
         console.error("Error occurred while signing out:", error);
       });
   };
-
-  useEffect(() => {
-    fetch("http://localhost:8000/categories/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: user.username,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Request failed with status: " + response.status);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setCategories(data);
-        setCategoriesLength(data.categories.length);
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("Error occurred while fetching categories:", error);
-      });
-  }, []);
 
   return (
     <MDBContainer fluid className="p-0 m-0 h-100">
