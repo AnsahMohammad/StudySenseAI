@@ -152,11 +152,8 @@ function App() {
                     <div className="accordion-body">
                   <form onSubmit={handleAddCategory}>
                       <input
-                      type="text"
-                      placeholder="Enter category name"
-                      value={newCategory}
-                      onChange={handleCategoryChange}
-                      />
+                      type="text" placeholder="Enter category name" 
+                      value={newCategory} onChange={handleCategoryChange} />
                       <button type="submit">Add</button>
                   </form>
                   </div>
