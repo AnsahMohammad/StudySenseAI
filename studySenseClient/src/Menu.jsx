@@ -50,21 +50,59 @@ function App() {
   const [currentCategory, setCurrentCategory] = useState("");
 
   const AddFileForm = ({ category }) => {
+	const [name, setName] = useState("");
+	const [file, setFile] = useState(null);
+
+	const handleNameChange = (event) => {
+		setName(event.target.value);
+	};
+
+	const handleFileChange = (event) => {
+		setFile(event.target.files[0]);
+	};
+
 	const handleSubmit = (event) => {
-	  event.preventDefault();
-	  console.log(`Successfully addded to { category }`)
-	  setShowForm(false);
+		event.preventDefault();
+		const formData = new FormData();
+	
+		// Append the file and other form data to the FormData object
+		formData.append("name", name);
+		formData.append("cat", category);
+		formData.append("myfile", file);
+		
+		// Perform your upload logic here using the formData
+		
+		// After successfully adding the file, you can reset the form
+		setName("");
+		setFile(null);
+		console.log(`Successfully addded to { category }`)
+		setShowForm(false);
 	};
   
 	return (
-	  <div>
-		<h2>Form to add file in the {category} category</h2>
-		<input type="text" placeholder="enter file name"/>
-		<form onSubmit={handleSubmit}>
-		<button type="submit">Add File</button>
+		<form method="POST" encType="multipart/form-data" onSubmit={handleSubmit}>
+		  <div className="form_container">
+			<div className="form_item">
+			  <label htmlFor="name">Enter the File Name:</label>
+			  <input type="text" id="name" name="name" value={name} onChange={handleNameChange} />
+			</div>
+			<br />
+			<div className="form_item">
+			  <label htmlFor="cat">Select the Category:</label>
+			  <input type="text" id="cat" name="cat" value={category} placeholder="Enter Here" readOnly />
+			</div>
+			<br />
+			<div className="form_item">
+			  <label htmlFor="myfile">Select a file:</label>
+			  <input type="file" id="myfile" name="myfile" onChange={handleFileChange} />
+			</div>
+			<br />
+			<div className="form_item">
+			  <button type="submit">Upload</button>
+			</div>
+		  </div>
 		</form>
-	  </div>
-	);
+	  );
   }; 
  
   const handleCategoryChange = (event) => {
