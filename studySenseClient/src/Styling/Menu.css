@@ -58,10 +58,15 @@
 .selectable-item {
   padding: 10px;
   cursor: pointer;
+  background-color: #ffffff;
 }
 
 .selectable-item:hover {
   background-color: #ebebeb;
+}
+
+.book-add{
+  background-color: #e1fccf;
 }
 
 .selected {

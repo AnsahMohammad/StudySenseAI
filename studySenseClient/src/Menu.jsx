@@ -169,6 +169,13 @@ function App() {
                         </div>
                       ))}
                     </MDBContainer>
+					<MDBContainer fluid className="m-0 file-holder p-0">
+                        <div
+                          key="add book"
+                          className="selectable-item book-add" onClick={() => handleItemClick(book.name, book.file)}>
+                          <MDBIcon fas icon="plus" />Add a new File
+                        </div>
+                    </MDBContainer>
                   </MDBAccordionItem>
                 ))}
               <MDBAccordionItem
