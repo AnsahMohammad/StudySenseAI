@@ -74,8 +74,6 @@ def fetch_categories(request):
 def reg_category(request):
     username = request.data.get("username")
     category_name = request.data.get("category")
-    
-    # Retrieve the user object based on the username
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
@@ -90,3 +88,26 @@ def reg_category(request):
         return Response({"message": "Added category successfully"}, status=200)
     
     return Response({"message": "Invalid category name"}, status=400)
+
+@api_view(["POST"])
+def add_file(request):
+    form_data = request.POST
+    username = form_data.get("username")
+    file_name = form_data.get("name")
+    category_name = form_data.get("cat")
+    uploaded_file = request.FILES.get("myfile")
+    print(f"{username} is adding a file {file_name} into {category_name}")
+    try:
+        user = User.objects.get(username=username)
+        category = Category.objects.get(name=category_name)
+    except Category.DoesNotExist:
+        return Response({"message": "Invalid category"}, status=400)
+    except User.DoesNotExist:
+        return Response({"message": "Invalid username"}, status=400)
+    book = Book.objects.create(
+        name=file_name,
+        category=category,
+        file=uploaded_file,
+        user=user
+    )
+    return Response({"message": "File added successfully"}, status=200)

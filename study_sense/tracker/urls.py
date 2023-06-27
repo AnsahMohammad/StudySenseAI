@@ -10,4 +10,5 @@ urlpatterns = [
     path("record/", views.record_time, name="record_time"),
     path("categories/", views.fetch_categories, name="get_categories"),
     path("register_categories/", views.reg_category, name="reg_categories"),
+    path("add_file/", views.add_file, name="add_file"),
 ]

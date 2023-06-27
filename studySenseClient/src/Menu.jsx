@@ -61,26 +61,45 @@ function App() {
 		setFile(event.target.files[0]);
 	};
 
-	const handleSubmit = (event) => {
+	const handleSubmitFiles = (event) => {
 		event.preventDefault();
+		
+		if (!name || !category || !file) {
+			console.error("Please fill in all fields.");
+			return;
+		}
+
 		const formData = new FormData();
-	
-		// Append the file and other form data to the FormData object
 		formData.append("name", name);
+		formData.append("username", user.username)
 		formData.append("cat", category);
 		formData.append("myfile", file);
-		
-		// Perform your upload logic here using the formData
-		
-		// After successfully adding the file, you can reset the form
-		setName("");
-		setFile(null);
-		console.log(`Successfully addded to { category }`)
-		setShowForm(false);
-	};
+
+
+		fetch("http://localhost:8000/add_file/", {
+			method: "POST",
+			body: formData,
+		})
+		.then((response) => {
+			if (!response.ok) {
+			throw new Error("Request failed with status: " + response.status);
+			}
+			return response.json();
+		})
+		.then((data) => {
+			console.log(data.message);
+			fetchCategories();
+			setName("");
+			setFile(null);
+			setShowForm(false);
+		})
+		.catch((error) => {
+			console.error("Error occurred while uploading file:", error);
+		});
+	  };
   
 	return (
-		<form method="POST" encType="multipart/form-data" onSubmit={handleSubmit}>
+		<form method="POST" encType="multipart/form-data" onSubmit={handleSubmitFiles}>
 		  <div className="form_container">
 			<div className="form_item">
 			  <label htmlFor="name">Enter the File Name:</label>
@@ -103,7 +122,7 @@ function App() {
 		  </div>
 		</form>
 	  );
-  }; 
+  };
  
   const handleCategoryChange = (event) => {
     setNewCategory(event.target.value);
@@ -170,6 +189,7 @@ function App() {
 
   const handleItemClick = (itemName, itemURL) => {
     setSelectedItem(itemName);
+	setShowForm(false)
     itemURL = "http://localhost:8000" + itemURL;
     setSelectedPDFUrl(itemURL);
   };
@@ -178,6 +198,7 @@ function App() {
 	console.log(`Adding a new file to category: ${categoryName}`);
 	setCurrentCategory(categoryName);
 	setShowForm(true);
+    setSelectedItem(false);
   };
 
   const logout = (event) => {
