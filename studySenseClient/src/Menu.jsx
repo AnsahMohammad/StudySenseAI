@@ -46,7 +46,27 @@ function App() {
   const [categories, setCategories] = useState(null);
   const [newCategory, setNewCategory] = useState("");
   const [categoriesLength, setCategoriesLength] = useState(0);
+  const [showForm, setShowForm] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState("");
 
+  const AddFileForm = ({ category }) => {
+	const handleSubmit = (event) => {
+	  event.preventDefault();
+	  console.log(`Successfully addded to { category }`)
+	  setShowForm(false);
+	};
+  
+	return (
+	  <div>
+		<h2>Form to add file in the {category} category</h2>
+		<input type="text" placeholder="enter file name"/>
+		<form onSubmit={handleSubmit}>
+		<button type="submit">Add File</button>
+		</form>
+	  </div>
+	);
+  }; 
+ 
   const handleCategoryChange = (event) => {
     setNewCategory(event.target.value);
   };
@@ -116,6 +136,12 @@ function App() {
     setSelectedPDFUrl(itemURL);
   };
 
+  const handleItemAdd = (categoryName) => {
+	console.log(`Adding a new file to category: ${categoryName}`);
+	setCurrentCategory(categoryName);
+	setShowForm(true);
+  };
+
   const logout = (event) => {
     event.preventDefault();
     fetch("http://localhost:8000/api/logout", {
@@ -172,7 +198,7 @@ function App() {
 					<MDBContainer fluid className="m-0 file-holder p-0">
                         <div
                           key="add book"
-                          className="selectable-item book-add" onClick={() => handleItemClick(book.name, book.file)}>
+                          className="selectable-item book-add" onClick={() => handleItemAdd(category.name)}>
                           <MDBIcon fas icon="plus" />Add a new File
                         </div>
                     </MDBContainer>
@@ -194,14 +220,15 @@ function App() {
           </div>
         </MDBCol>
         <MDBCol className="main-border primary">
-          {(() => {
-            if (selectedItem) {
-              return <SelectedItem selectedItem={selectedItem} selectedPDFUrl={selectedPDFUrl} />;
-            } else {
-              return <Home />;
-            }
-          })()}
-        </MDBCol>
+		{(() => {
+			if (selectedItem) {
+				return <SelectedItem selectedItem={selectedItem} selectedPDFUrl={selectedPDFUrl} />;
+			} else if (showForm) {
+				return <AddFileForm category={currentCategory} />;
+			}
+			return <Home />;
+		})()}
+		</MDBCol>
       </MDBRow>
     </MDBContainer>
   );
