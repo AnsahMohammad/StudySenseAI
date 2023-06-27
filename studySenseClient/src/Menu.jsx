@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MDBContainer, MDBRow, MDBCol, MDBAccordion, MDBAccordionItem, MDBBtn } from "mdb-react-ui-kit";
+import { MDBContainer, MDBRow, MDBCol, MDBAccordion, MDBAccordionItem, MDBIcon } from "mdb-react-ui-kit";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Cookies } from "react-cookie";
 import { Document, Page, pdfjs } from 'react-pdf';
@@ -44,6 +44,20 @@ function App() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [categories, setCategories] = useState(null);
   const [selectedPDFUrl, setSelectedPDFUrl] = useState(null);
+  const [newCategory, setNewCategory] = useState("");
+  const [categoriesLength, setCategoriesLength] = useState(0);
+
+  const handleCategoryChange = (event) => {
+    setNewCategory(event.target.value);
+  };
+
+  const handleAddCategory = (event) => {
+    event.preventDefault();
+    // Add logic to handle category submission and update state
+    console.log("New category:", newCategory);
+    setCategoriesLength((prevLength) => prevLength + 1);
+    setNewCategory("");
+  };
 
   const handleItemClick = (itemName, itemURL) => {
     setSelectedItem(itemName);
@@ -91,6 +105,7 @@ function App() {
       })
       .then((data) => {
         setCategories(data);
+        setCategoriesLength(data.categories.length);
         console.log(data);
       })
       .catch((error) => {
@@ -131,6 +146,21 @@ function App() {
                     </MDBContainer>
                   </MDBAccordionItem>
                 ))}
+              <MDBAccordionItem
+                  key={99} collapseId={categoriesLength + 1} className="drop-item"
+                  headerTitle={<> <MDBIcon fas icon="plus" /> &nbsp; Add a category </>} >
+                    <div className="accordion-body">
+                  <form onSubmit={handleAddCategory}>
+                      <input
+                      type="text"
+                      placeholder="Enter category name"
+                      value={newCategory}
+                      onChange={handleCategoryChange}
+                      />
+                      <button type="submit">Add</button>
+                  </form>
+                  </div>
+              </MDBAccordionItem>
             </MDBAccordion>
           </div>
         </MDBCol>
