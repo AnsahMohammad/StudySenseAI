@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { MDBContainer, MDBRow, MDBCol, MDBAccordion, MDBAccordionItem, MDBIcon } from "mdb-react-ui-kit";
+import { MDBContainer, MDBRow, MDBCol, MDBAccordion, MDBAccordionItem, MDBIcon, MDBValidation,
+	MDBValidationItem,
+	MDBInput,
+	MDBInputGroup,
+	MDBBtn,
+	MDBCheckbox } from "mdb-react-ui-kit";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Cookies } from "react-cookie";
 import { Document, Page, pdfjs } from 'react-pdf';
@@ -9,6 +14,7 @@ import 'react-pdf/dist/esm/Page/TextLayer.css';
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const SelectedItem = ({ selectedItem, selectedPDFUrl }) => {
+	// selected file tracker, and displays the page Component
 	return (
 		<div>
 		<h2>{selectedItem}</h2>
@@ -50,78 +56,105 @@ function App() {
   const [currentCategory, setCurrentCategory] = useState("");
 
   const AddFileForm = ({ category }) => {
-	const [name, setName] = useState("");
-	const [file, setFile] = useState(null);
-
-	const handleNameChange = (event) => {
-		setName(event.target.value);
+	const [formValue, setFormValue] = useState({
+	  name: "",
+	  file: null,
+	});
+  
+	const onChange = (e) => {
+	  setFormValue({ ...formValue, [e.target.name]: e.target.value });
 	};
-
+  
 	const handleFileChange = (event) => {
-		setFile(event.target.files[0]);
+	  setFormValue({ ...formValue, file: event.target.files[0] });
 	};
-
+  
 	const handleSubmitFiles = (event) => {
-		event.preventDefault();
-		
-		if (!name || !category || !file) {
-			console.error("Please fill in all fields.");
-			return;
-		}
+	  event.preventDefault();
+  	  const { name, file } = formValue; 
+	  if (!name || !category || !file) {
+		console.error("Please fill in all fields.");
+		return;
+	  }
+	  const formData = new FormData();
+	  formData.append("name", name);
+	  formData.append("username", user.username);
+	  formData.append("cat", category);
+	  formData.append("myfile", file);
 
-		const formData = new FormData();
-		formData.append("name", name);
-		formData.append("username", user.username)
-		formData.append("cat", category);
-		formData.append("myfile", file);
-
-
-		fetch("http://localhost:8000/add_file/", {
-			method: "POST",
-			body: formData,
-		})
+	  fetch("http://localhost:8000/add_file/", {
+		method: "POST",
+		body: formData,
+	  })
 		.then((response) => {
-			if (!response.ok) {
+		  if (!response.ok) {
 			throw new Error("Request failed with status: " + response.status);
-			}
-			return response.json();
+		  }
+		  return response.json();
 		})
 		.then((data) => {
-			console.log(data.message);
-			fetchCategories();
-			setName("");
-			setFile(null);
-			setShowForm(false);
+		  console.log(data.message);
+		  fetchCategories();
+		  setFormValue({ name: "", file: null });
 		})
 		.catch((error) => {
-			console.error("Error occurred while uploading file:", error);
+		  console.error("Error occurred while uploading file:", error);
 		});
-	  };
+	};
   
 	return (
-		<form method="POST" encType="multipart/form-data" onSubmit={handleSubmitFiles}>
-		  <div className="form_container">
-			<div className="form_item">
-			  <label htmlFor="name">Enter the File Name:</label>
-			  <input type="text" id="name" name="name" value={name} onChange={handleNameChange} />
-			</div>
-			<br />
-			<div className="form_item">
-			  <label htmlFor="cat">Select the Category:</label>
-			  <input type="text" id="cat" name="cat" value={category} placeholder="Enter Here" readOnly />
-			</div>
-			<br />
-			<div className="form_item">
-			  <label htmlFor="myfile">Select a file:</label>
-			  <input type="file" id="myfile" name="myfile" onChange={handleFileChange} />
-			</div>
-			<br />
-			<div className="form_item">
-			  <button type="submit">Upload</button>
-			</div>
+	  <>
+	  	<h1>Add a new File </h1>
+		<hr></hr>
+		<MDBValidation className="row g-3">
+		  <MDBValidationItem className="col-md-4">
+			<MDBInput
+			  value={formValue.name}
+			  name="name"
+			  onChange={onChange}
+			  id="name"
+			  required
+			  label="File Name"
+			  placeholder="PDF - 1"
+			/>
+		  </MDBValidationItem>
+		  <MDBValidationItem
+			feedback="Please choose a Category."
+			invalid
+			className="col-md-4"
+		  >
+			<input
+			  type="text"
+			  id="cat"
+			  name="cat"
+			  value={category}
+			  placeholder="Enter Here"
+			  readOnly
+			/>
+		  </MDBValidationItem>
+		  <MDBValidationItem
+			className="mt-3 mb-5"
+			feedback="Example invalid form file feedback"
+			invalid
+		  >
+			<input
+			  type="file"
+			  className="form-control"
+			  id="myfile"
+			  aria-label="file"
+			  required
+			  onChange={handleFileChange}
+			/>
+		  </MDBValidationItem>
+		  <div className="col-12">
+			<button type="submit" onClick={handleSubmitFiles}>
+			  Upload
+			</button>
+			<button type="reset">Reset</button>
 		  </div>
-		</form>
-	  );
+		</MDBValidation>
+	  </>
+	);
   };
  
   const handleCategoryChange = (event) => {
@@ -129,6 +162,7 @@ function App() {
   };
 
   const handleAddCategory = (event) => {
+	// logic for adding a new category
 	event.preventDefault();
 	console.log("New category:", newCategory);
 	setCategoriesLength((prevLength) => prevLength + 1);
@@ -159,6 +193,7 @@ function App() {
   };
   
   const fetchCategories = () => {
+	// fetcging the categories from the server
 	fetch("http://localhost:8000/categories/", {
 	  method: "POST",
 	  headers: {
@@ -188,6 +223,7 @@ function App() {
   }, []);
 
   const handleItemClick = (itemName, itemURL) => {
+	// logic to load a pdf
     setSelectedItem(itemName);
 	setShowForm(false)
     itemURL = "http://localhost:8000" + itemURL;
@@ -195,6 +231,7 @@ function App() {
   };
 
   const handleItemAdd = (categoryName) => {
+	// handling a new item being added
 	console.log(`Adding a new file to category: ${categoryName}`);
 	setCurrentCategory(categoryName);
 	setShowForm(true);
@@ -202,6 +239,7 @@ function App() {
   };
 
   const logout = (event) => {
+	// logic for logut
     event.preventDefault();
     fetch("http://localhost:8000/api/logout", {
       method: "POST",
