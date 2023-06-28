@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { MDBContainer, MDBRow, MDBCol, MDBAccordion, MDBAccordionItem, MDBIcon, MDBValidation,
-	MDBValidationItem,
+import { MDBContainer, MDBRow, MDBCol, MDBAccordion, MDBAccordionItem,MDBIcon,
 	MDBInput,
 	MDBInputGroup,
 	MDBBtn,
 	MDBCheckbox } from "mdb-react-ui-kit";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Icon } from "semantic-ui-react";
+import "semantic-ui-css/semantic.min.css";
 import { Cookies } from "react-cookie";
 import { Document, Page, pdfjs } from 'react-pdf';
 import "./Styling/Menu.css";
@@ -18,6 +19,7 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl }) => {
 	return (
 		<div>
 		<h2>{selectedItem}</h2>
+		<Icon name="trash alternate" size="large"/>
 		<Document
 			file={selectedPDFUrl}
 			error={
@@ -238,6 +240,12 @@ function App() {
     setSelectedItem(false);
   };
 
+  const goHome = (event) => {
+	// Routing to home page
+	setShowForm(false);
+    setSelectedItem(false);
+  };
+
   const logout = (event) => {
 	// logic for logut
     event.preventDefault();
@@ -269,6 +277,7 @@ function App() {
             <span>
               {user.username} - {user.email}
             </span>
+			<Icon name='home' size='large' onClick={goHome}/>
             <button className="btn btn-red" onClick={logout}>
               Logout
             </button>
@@ -296,14 +305,14 @@ function App() {
                         <div
                           key="add book"
                           className="selectable-item book-add" onClick={() => handleItemAdd(category.name)}>
-                          <MDBIcon fas icon="plus" />Add a new File
+                          <Icon name="plus" />Add a new File
                         </div>
                     </MDBContainer>
                   </MDBAccordionItem>
                 ))}
               <MDBAccordionItem
                   key={99} collapseId={categoriesLength + 1} className="drop-item"
-                  headerTitle={<> <MDBIcon fas icon="plus" /> &nbsp; Add a category </>} >
+                  headerTitle={<> <Icon name="plus" /> &nbsp; Add a category </>} >
                     <div className="accordion-body">
                   <form onSubmit={handleAddCategory}>
                       <input
