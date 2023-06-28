@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBAccordion, MDBAccordionItem,MDBIcon,
 	MDBInput,
-	MDBInputGroup,
-	MDBBtn,
-	MDBCheckbox } from "mdb-react-ui-kit";
+	MDBValidation, MDBValidationItem } from "mdb-react-ui-kit";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Icon } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
@@ -14,12 +12,43 @@ import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const SelectedItem = ({ selectedItem, selectedPDFUrl }) => {
+const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
+
+	const handleDelete = () => {
+		const cookies = new Cookies();
+  		const user = cookies.get("user");
+
+		fetch("http://localhost:8000/delete_file/", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			username: user.username,
+			file_name: selectedItem
+		}),
+		})
+		.then((response) => {
+			if (!response.ok) {
+			throw new Error("Request failed with status: " + response.status);
+			}
+			return response.json();
+		})
+		.then((data) => {
+			console.log(data.message);
+			goHome();
+		})
+		.catch((error) => {
+			console.error("Error occurred while fetching categories:", error);
+		});
+
+	};
+
 	// selected file tracker, and displays the page Component
 	return (
 		<div>
 		<h2>{selectedItem}</h2>
-		<Icon name="trash alternate" size="large"/>
+		<Icon name="trash alternate" size="large" onClick={handleDelete} />
 		<Document
 			file={selectedPDFUrl}
 			error={
@@ -242,6 +271,7 @@ function App() {
 
   const goHome = (event) => {
 	// Routing to home page
+	fetchCategories();
 	setShowForm(false);
     setSelectedItem(false);
   };
@@ -328,7 +358,7 @@ function App() {
         <MDBCol className="main-border primary">
 		{(() => {
 			if (selectedItem) {
-				return <SelectedItem selectedItem={selectedItem} selectedPDFUrl={selectedPDFUrl} />;
+				return <SelectedItem selectedItem={selectedItem} selectedPDFUrl={selectedPDFUrl} goHome={goHome} />;
 			} else if (showForm) {
 				return <AddFileForm category={currentCategory} />;
 			}

@@ -114,3 +114,24 @@ def add_file(request):
             user=user
         )
         return Response({"message": "File added successfully"}, status=200)
+
+@api_view(["POST"])
+def delete_file(request):
+    username = request.data.get("username")
+    file_name = request.data.get("file_name")
+    print(f"{username} is deleting file {file_name}")
+
+    try:
+        user = User.objects.get(username=username)
+        book = Book.objects.get(name=file_name, user=user)
+        # Delete the file
+        book.file.delete()
+        book.delete()
+        
+        return Response({"message": "File deleted successfully"}, status=200)
+    except User.DoesNotExist:
+        return Response({"message": "Invalid username"}, status=400)
+    except Book.DoesNotExist:
+        return Response({"message": "File not found"}, status=400)
+    except Exception as e:
+        return Response({"message": str(e)}, status=500)
