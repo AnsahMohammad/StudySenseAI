@@ -100,20 +100,17 @@ def add_file(request):
     try:
         user = User.objects.get(username=username)
         category = Category.objects.get(name=category_name, user=user)
-        book = Book.objects.get(name=file_name, category=category_name, user=user)
-        return Response({"message": "Book already exists"}, status=400)
     except Category.DoesNotExist:
         return Response({"message": "Invalid category"}, status=400)
     except User.DoesNotExist:
         return Response({"message": "Invalid username"}, status=400)
-    except Book.DoesNotExist:
-        book = Book.objects.create(
-            name=file_name,
-            category=category,
-            file=uploaded_file,
-            user=user
-        )
-        return Response({"message": "File added successfully"}, status=200)
+    book = Book.objects.create(
+        name=file_name,
+        category=category,
+        file=uploaded_file,
+        user=user
+    )
+    return Response({"message": "File added successfully"}, status=200)
 
 @api_view(["POST"])
 def delete_file(request):
