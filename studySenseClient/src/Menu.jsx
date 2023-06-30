@@ -1,7 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { MDBContainer, MDBRow, MDBCol, MDBAccordion, MDBAccordionItem,MDBIcon,
 	MDBInput,
-	MDBValidation, MDBValidationItem } from "mdb-react-ui-kit";
+	MDBValidation, MDBValidationItem,
+	MDBNavbar,
+	MDBNavbarBrand,
+	MDBNavbarToggler,
+	MDBNavbarNav,
+	MDBNavbarItem,
+	MDBNavbarLink,
+	MDBBtn,
+	MDBDropdown,
+	MDBDropdownToggle,
+	MDBDropdownMenu,
+	MDBDropdownItem,
+	MDBCollapse,
+} from "mdb-react-ui-kit";
+
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Icon } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
@@ -70,6 +85,30 @@ const Home = () => {
 return <h1>Hi</h1>;
 };
 
+// Component for the User NavBar display
+const UserBar = ({ username, goHome, logout }) => {
+	return (
+	  <MDBNavbar expand="lg" light bgColor="light">
+		<MDBContainer fluid>
+		  <MDBNavbarNav className="mr-auto mb-2 mb-lg-0">
+			<MDBNavbarItem>
+			  <MDBNavbarLink active aria-current="page">
+				<Icon name="home" size="large" onClick={goHome} />
+			  </MDBNavbarLink>
+			</MDBNavbarItem>
+			<MDBNavbarBrand href="#">{username}</MDBNavbarBrand>
+			<MDBNavbarItem>
+			  <button className="btn btn-red" onClick={logout}>
+				Logout
+			  </button>
+			</MDBNavbarItem>
+		  </MDBNavbarNav>
+		</MDBContainer>
+	  </MDBNavbar>
+	);
+};
+
+// Component for displaying the PDFs
 function App() {
   const cookies = new Cookies();
   const user = cookies.get("user");
@@ -303,15 +342,9 @@ function App() {
     <MDBContainer fluid className="p-0 m-0 h-100">
       <MDBRow className="main-page">
         <MDBCol className="main-border secondary p-0">
-          <MDBContainer className="user-tab flex">
-            <span>
-              {user.username} - {user.email}
-            </span>
-			<Icon name='home' size='large' onClick={goHome}/>
-            <button className="btn btn-red" onClick={logout}>
-              Logout
-            </button>
-          </MDBContainer>
+		  <MDBContainer className="user-tab flex w-1">
+			<UserBar username={user.username} logout={logout} goHome={goHome}/>
+		  </MDBContainer>
           <div className="secondary-accordion">
             <MDBAccordion initialActive={1} className="w-100">
               {categories &&
