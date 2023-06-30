@@ -261,7 +261,43 @@ function App() {
 		console.error("Error occurred while fetching categories:", error);
 	  });
   };
+
+  const goHome = (event) => {
+	// Routing to home page
+	fetchCategories();
+	setShowForm(false);
+    setSelectedItem(false);
+  };
   
+  const handleDeleteCat = (selectedCat) => {
+	const cookies = new Cookies();
+	const user = cookies.get("user");
+
+	fetch("http://localhost:8000/delete_category/", {
+	method: "POST",
+	headers: {
+		"Content-Type": "application/json",
+	},
+	body: JSON.stringify({
+		username: user.username,
+		category_name: selectedCat
+	}),
+	})
+	.then((response) => {
+		if (!response.ok) {
+		throw new Error("Request failed with status: " + response.status);
+		}
+		return response.json();
+	})
+	.then((data) => {
+		console.log(data.message);
+		goHome();
+	})
+	.catch((error) => {
+		console.error("Error occurred while fetching categories:", error);
+	});
+};
+
   const fetchCategories = () => {
 	// fetcging the categories from the server
 	fetch("http://localhost:8000/categories/", {
@@ -308,13 +344,6 @@ function App() {
     setSelectedItem(false);
   };
 
-  const goHome = (event) => {
-	// Routing to home page
-	fetchCategories();
-	setShowForm(false);
-    setSelectedItem(false);
-  };
-
   const logout = (event) => {
 	// logic for logut
     event.preventDefault();
@@ -349,7 +378,7 @@ function App() {
             <MDBAccordion initialActive={1} className="w-100">
               {categories &&
                 categories.categories.map((category, index) => (
-                  <MDBAccordionItem
+				<MDBAccordionItem
                     key={index} collapseId={index + 1} className="drop-item" headerTitle={category.name}>
                     <MDBContainer fluid className="m-0 file-holder p-0">
                       {categories.category_data[category.name].map((book, bookIndex) => (
@@ -365,11 +394,21 @@ function App() {
                       ))}
                     </MDBContainer>
 					<MDBContainer fluid className="m-0 file-holder p-0">
-                        <div
-                          key="add book"
-                          className="selectable-item book-add" onClick={() => handleItemAdd(category.name)}>
-                          <Icon name="plus" />Add a new File
-                        </div>
+					<div className="span">
+						<div
+							key="add book"
+							className="selectable-item book-add"
+							onClick={() => handleItemAdd(category.name)} >
+							<Icon name="plus" /> Add a new File
+						</div>
+						<div
+							key="del category"
+							className="selectable-item del-cat"
+							onClick={() => handleDeleteCat(category.name)} >
+							<Icon name="trash alternate" size="large"/>
+							Delete the Folder
+						</div>
+					</div>
                     </MDBContainer>
                   </MDBAccordionItem>
                 ))}
