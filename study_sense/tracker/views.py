@@ -52,6 +52,7 @@ def record_time(request):
     categories = Category.objects.all()
     return render(request, "home.html", {"categories": categories})
 
+
 @api_view(["POST"])
 def fetch_categories(request):
     """View to fetch all categories"""
@@ -70,6 +71,7 @@ def fetch_categories(request):
     response_data = {"categories": serializer.data, "category_data": category_data}
     return Response(response_data)
 
+
 @api_view(["POST"])
 def reg_category(request):
     username = request.data.get("username")
@@ -78,16 +80,16 @@ def reg_category(request):
         user = User.objects.get(username=username)
     except User.DoesNotExist:
         return Response({"message": "Invalid username"}, status=400)
-    
+
     existing_category = Category.objects.filter(user=user, name=category_name).exists()
     if existing_category:
         return Response({"message": "Category already exists for the user"}, status=400)
     if len(category_name) > 0:
-        
         category = Category.objects.create(name=category_name, user=user)
         return Response({"message": "Added category successfully"}, status=200)
-    
+
     return Response({"message": "Invalid category name"}, status=400)
+
 
 @api_view(["POST"])
 def add_file(request):
@@ -105,12 +107,10 @@ def add_file(request):
     except User.DoesNotExist:
         return Response({"message": "Invalid username"}, status=400)
     book = Book.objects.create(
-        name=file_name,
-        category=category,
-        file=uploaded_file,
-        user=user
+        name=file_name, category=category, file=uploaded_file, user=user
     )
     return Response({"message": "File added successfully"}, status=200)
+
 
 @api_view(["POST"])
 def delete_file(request):
@@ -124,7 +124,7 @@ def delete_file(request):
         # Delete the file
         book.file.delete()
         book.delete()
-        
+
         return Response({"message": "File deleted successfully"}, status=200)
     except User.DoesNotExist:
         return Response({"message": "Invalid username"}, status=400)
@@ -132,7 +132,8 @@ def delete_file(request):
         return Response({"message": "File not found"}, status=400)
     except Exception as e:
         return Response({"message": str(e)}, status=500)
-    
+
+
 @api_view(["POST"])
 def delete_category(request):
     username = request.data.get("username")
@@ -147,7 +148,7 @@ def delete_category(request):
         for book in books:
             book.file.delete()
             book.delete()
-        
+
         # Delete the category
         category.delete()
 
