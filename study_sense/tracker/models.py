@@ -19,7 +19,9 @@ class Book(models.Model):
     """Model to store the PDF"""
 
     name = models.CharField(max_length=50, null=False, blank=False)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False, blank=False)
+    category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, null=False, blank=False
+    )
     file = models.FileField()
     created_at = models.DateTimeField(auto_now_add=True)
     total_time = models.FloatField(default=0)

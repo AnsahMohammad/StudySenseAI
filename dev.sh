@@ -22,9 +22,10 @@ sleep 5
 
 echo -e "${GREEN}Starting React${NC}"
 cd ../studySenseClient
-# npm install mdb-react-ui-kit
-# npm install react-cookie
-# npm install bootstrap
-# npm install react-pdf @react-pdf/renderer
+npm install mdb-react-ui-kit
+npm install react-cookie
+npm install bootstrap
+npm install react-pdf @react-pdf/renderer
+npm install semantic-ui-react semantic-ui-css
 npm install
 npm run dev -- --port 5173
