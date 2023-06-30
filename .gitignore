@@ -53,6 +53,9 @@ env.bak/
 venv.bak/
 myenv/
 
+# scripts
+run.sh
+
 # mkdocs documentation
 /site
 
