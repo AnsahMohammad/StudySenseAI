@@ -112,19 +112,19 @@
   --scale-factor: 1;
 }
 
-/* Styles for the container holding the PDF viewer */
 .pdf-container {
+  position: relative;
   width: 100%;
-  height: 600px;
+  height: auto;
+  max-height: 600px;
+  overflow: auto;
 }
 
-/* Styles for the individual pages in the PDF */
 .pdf-page {
   display: block;
   margin: 0 auto;
 }
 
-/* Styles for the text layer within the PDF viewer */
 .pdf-text-layer {
   position: absolute;
   top: 0;
@@ -134,7 +134,6 @@
   pointer-events: none;
 }
 
-/* Styles for the text within the text layer */
 .pdf-text-layer-text {
   font-size: 12px;
   color: #000;
@@ -142,7 +141,6 @@
   padding: 2px;
 }
 
-/* Styles for the annotation layer within the PDF viewer */
 .pdf-annotation-layer {
   position: absolute;
   top: 0;
@@ -150,5 +148,20 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  margin: 0 5px;
+}
+
+.pagination span {
+  margin: 0 10px;
 }
 
