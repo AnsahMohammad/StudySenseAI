@@ -108,59 +108,40 @@
   border-color: red;
 }
 
-.pdf-document {
-  --scale-factor: 1;
-}
-
 .pdf-container {
-  position: relative;
-  width: 100%;
-  height: auto;
-  overflow: auto;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding: 10px;
 }
 
 .pdf-page {
   display: block;
   margin: 0 auto;
+  max-width: 100%;
 }
 
-.pdf-text-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+.pdf-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
-.pdf-text-layer-text {
-  font-size: 12px;
-  color: #000;
-  background: rgba(255, 255, 255, 0.7);
-  padding: 2px;
-}
-
-.pdf-annotation-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+.pdf-controls button {
+  margin-right: 10px;
 }
 
 .pagination {
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  justify-content: center;
+  margin-bottom: 10px;
 }
 
 .pagination button {
-  margin: 0 5px;
+  margin-right: 10px;
 }
 
 .pagination span {
   margin: 0 10px;
 }
-

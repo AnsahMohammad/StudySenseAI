@@ -31,6 +31,10 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [zoom, setZoom] = useState(1);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedItem]);
+
   const handleDelete = () => {
     const cookies = new Cookies();
     const user = cookies.get("user");
@@ -77,12 +81,12 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
   };
 
   const handleZoomIn = () => {
-    setZoom(prevZoom => prevZoom + 0.1);
+    setZoom((prevZoom) => prevZoom + 0.1);
   };
 
   const handleZoomOut = () => {
     if (zoom > 0.1) {
-      setZoom(prevZoom => prevZoom - 0.1);
+      setZoom((prevZoom) => prevZoom - 0.1);
     }
   };
 
@@ -104,7 +108,7 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
             Next
           </button>
         </div>
-        <div className="pdf-container">
+        <div className="pdf-container" style={{ border: "1px solid #ccc" }}>
           <Document
             file={selectedPDFUrl}
             error={
