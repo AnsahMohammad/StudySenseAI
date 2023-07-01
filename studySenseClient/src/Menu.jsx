@@ -404,14 +404,14 @@ function App() {
                       <div className="span">
                         <div
                           key="add book"
-                          className="selectable-item book-add"
+                          className="selectable-choice book-add"
                           onClick={() => handleItemAdd(category.name)}
                         >
                           <Icon name="plus" /> Add a new File
                         </div>
                         <div
                           key="del category"
-                          className="selectable-item del-cat"
+                          className="selectable-choice del-cat"
                           onClick={() => handleDeleteCat(category.name)}
                         >
                           <Icon name="trash alternate" size="large" />
