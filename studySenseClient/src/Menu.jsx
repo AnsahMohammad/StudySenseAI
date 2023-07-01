@@ -73,7 +73,7 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
         }
         className="pdf-container"
       >
-        <Page pageNumber={1} className="pdf-page" renderTextLayer={false} />
+        <Page pageNumber={1} className="pdf-page" />
       </Document>
     </div>
   );
