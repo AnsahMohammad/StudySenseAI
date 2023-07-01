@@ -29,6 +29,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pd
 const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
   const [numPages, setNumPages] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [zoom, setZoom] = useState(1);
 
   const handleDelete = () => {
     const cookies = new Cookies();
@@ -75,38 +76,51 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
     }
   };
 
+  const handleZoomIn = () => {
+    setZoom(prevZoom => prevZoom + 0.1);
+  };
+
+  const handleZoomOut = () => {
+    if (zoom > 0.1) {
+      setZoom(prevZoom => prevZoom - 0.1);
+    }
+  };
+
   return (
     <div>
       <h2>{selectedItem}</h2>
       <Icon name="trash alternate" size="large" onClick={handleDelete} />
       <MDBContainer>
-        <Document
-          file={selectedPDFUrl}
-          error={
-            <p>
-              Unable to display PDF. Please{" "}
-              <a href={selectedPDFUrl} target="_blank" rel="noopener noreferrer">
-                download
-              </a>{" "}
-              it.
-            </p>
-          }
-          onLoadSuccess={onDocumentLoadSuccess}
-          className="pdf-container"
-        >
-          <Page pageNumber={currentPage} className="pdf-page" />
-        </Document>
-      </MDBContainer>
-      <MDBContainer className="pagination">
-        <button onClick={goToPreviousPage} disabled={currentPage === 1}>
-          Previous
-        </button>
-        <span>
-          Page {currentPage} of {numPages}
-        </span>
-        <button onClick={goToNextPage} disabled={currentPage === numPages}>
-          Next
-        </button>
+        <div className="pdf-controls pagination">
+          <button onClick={handleZoomIn}>Zoom In</button>
+          <button onClick={handleZoomOut}>Zoom Out</button>
+          <button onClick={goToPreviousPage} disabled={currentPage === 1}>
+            Previous
+          </button>
+          <span>
+            Page {currentPage} of {numPages}
+          </span>
+          <button onClick={goToNextPage} disabled={currentPage === numPages}>
+            Next
+          </button>
+        </div>
+        <div className="pdf-container">
+          <Document
+            file={selectedPDFUrl}
+            error={
+              <p>
+                Unable to display PDF. Please{" "}
+                <a href={selectedPDFUrl} target="_blank" rel="noopener noreferrer">
+                  download
+                </a>{" "}
+                it.
+              </p>
+            }
+            onLoadSuccess={onDocumentLoadSuccess}
+          >
+            <Page pageNumber={currentPage} className="pdf-page" scale={zoom} />
+          </Document>
+        </div>
       </MDBContainer>
     </div>
   );
