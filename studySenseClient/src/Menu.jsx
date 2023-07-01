@@ -23,9 +23,12 @@ import { Document, Page, pdfjs } from "react-pdf";
 import "./Styling/Menu.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
+
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
+  const [numPages, setNumPages] = useState(null);
+
   const handleDelete = () => {
     const cookies = new Cookies();
     const user = cookies.get("user");
@@ -55,7 +58,10 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
       });
   };
 
-  // selected file tracker, and displays the page Component
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
+  };
+
   return (
     <div>
       <h2>{selectedItem}</h2>
@@ -71,9 +77,13 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
             it.
           </p>
         }
+        onLoadSuccess={onDocumentLoadSuccess}
         className="pdf-container"
       >
-        <Page pageNumber={1} className="pdf-page" />
+        {numPages &&
+          Array.from(new Array(numPages), (el, index) => (
+            <Page key={`page_${index + 1}`} pageNumber={index + 1} className="pdf-page" />
+          ))}
       </Document>
     </div>
   );
