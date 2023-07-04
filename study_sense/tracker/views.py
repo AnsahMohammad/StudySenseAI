@@ -4,8 +4,9 @@ View module for tracker app
 from django.shortcuts import render, redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 from .models import Book, Category
 from django.contrib.auth.models import User
 from .serializers import CategorySerializer, BookSerializer
@@ -53,10 +54,12 @@ def record_time(request):
     return render(request, "home.html", {"categories": categories})
 
 
-@api_view(["POST"])
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
 def fetch_categories(request):
     """View to fetch all categories"""
-    username = request.data.get("username")
+    username = request.user
     print(f"{username} is requesting categories")
     user = User.objects.get(username=username)
     categories = Category.objects.filter(user=user)
@@ -73,8 +76,10 @@ def fetch_categories(request):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
 def reg_category(request):
-    username = request.data.get("username")
+    username = request.user
     category_name = request.data.get("category")
     try:
         user = User.objects.get(username=username)
@@ -92,9 +97,11 @@ def reg_category(request):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
 def add_file(request):
     form_data = request.POST
-    username = form_data.get("username")
+    username = request.user
     file_name = form_data.get("name")
     category_name = form_data.get("cat")
     uploaded_file = request.FILES.get("myfile")
@@ -113,8 +120,10 @@ def add_file(request):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
 def delete_file(request):
-    username = request.data.get("username")
+    username = request.user
     file_name = request.data.get("file_name")
     print(f"{username} is deleting file {file_name}")
 
@@ -135,8 +144,10 @@ def delete_file(request):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
 def delete_category(request):
-    username = request.data.get("username")
+    username = request.user
     category_name = request.data.get("category_name")
     print(f"{username} is deleting category {category_name}")
 

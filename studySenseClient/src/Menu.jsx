@@ -38,14 +38,16 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
   const handleDelete = () => {
     const cookies = new Cookies();
     const user = cookies.get("user");
+    const token = user.token
 
     fetch("http://localhost:8000/delete_file/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Token ${token}`,
       },
       body: JSON.stringify({
-        username: user.username,
+        username: token.username,
         file_name: selectedItem,
       }),
     })
@@ -162,8 +164,9 @@ const UserBar = ({ username, goHome, logout }) => {
 function App() {
   const cookies = new Cookies();
   const user = cookies.get("user");
+  const token = user.token
   // handling authentication
-  if (!user) {
+  if (!token) {
     window.location.href = "http://localhost:5173/";
   }
 
@@ -198,12 +201,14 @@ function App() {
       }
       const formData = new FormData();
       formData.append("name", name);
-      formData.append("username", user.username);
       formData.append("cat", category);
       formData.append("myfile", file);
 
       fetch("http://localhost:8000/add_file/", {
         method: "POST",
+        headers: {
+          "Authorization": `Token ${token}`,
+        },
         body: formData,
       })
         .then((response) => {
@@ -291,9 +296,9 @@ function App() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Token ${token}`,
       },
       body: JSON.stringify({
-        username: user.username,
         category: newCategory,
       }),
     })
@@ -321,15 +326,14 @@ function App() {
 
   const handleDeleteCat = (selectedCat) => {
     const cookies = new Cookies();
-    const user = cookies.get("user");
 
     fetch("http://localhost:8000/delete_category/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Token ${token}`,
       },
       body: JSON.stringify({
-        username: user.username,
         category_name: selectedCat,
       }),
     })
@@ -349,15 +353,14 @@ function App() {
   };
 
   const fetchCategories = () => {
+
     // fetcging the categories from the server
     fetch("http://localhost:8000/categories/", {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Token ${token}`,
       },
-      body: JSON.stringify({
-        username: user.username,
-      }),
     })
       .then((response) => {
         if (!response.ok) {

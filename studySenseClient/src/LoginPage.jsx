@@ -48,7 +48,12 @@ function App() {
         if (response.ok) {
           console.log("User logged-in successfully");
           response.json().then((data) => {
-            cookies.set("user", data.token, {
+            cookies.set("token", data.token, {
+              path: "/",
+              sameSite: "None",
+              secure: true,
+            });
+            cookies.set("user", data, {
               path: "/",
               sameSite: "None",
               secure: true,
