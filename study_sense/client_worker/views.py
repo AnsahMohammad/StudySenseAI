@@ -18,10 +18,7 @@ def register_user(request):
     if serializer.is_valid():
         account = serializer.save()
         token, _ = Token.objects.get_or_create(user=account)
-        response_data = {
-            'user': serializer.data,
-            'token': token.key
-        }
+        response_data = {"user": serializer.data, "token": token.key}
         return Response(response_data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -43,7 +40,9 @@ def login_user(request):
             "token": token,
         }
         return Response(response_data, status=status.HTTP_200_OK)
-    return Response({"message": "Invalid username or password."}, status=status.HTTP_400_BAD_REQUEST)
+    return Response(
+        {"message": "Invalid username or password."}, status=status.HTTP_400_BAD_REQUEST
+    )
 
 
 @api_view(["POST"])
