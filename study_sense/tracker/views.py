@@ -58,46 +58,43 @@ def record_time(request):
     return render(request, "home.html", {"categories": categories})
 
 
-@api_view(["GET"])
+@api_view(["GET", "POST"])
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
-def fetch_categories(request):
-    """View to fetch all categories"""
-    username = request.user
-    print(f"{username} is requesting categories")
-    user = User.objects.get(username=username)
-    categories = Category.objects.filter(user=user)
-    category_data = {}
-
-    for category in categories:
-        books = Book.objects.filter(category=category)
-        book_serializer = BookSerializer(books, many=True)
-        category_data[category.name] = book_serializer.data
-
-    serializer = CategorySerializer(categories, many=True)
-    response_data = {"categories": serializer.data, "category_data": category_data}
-    return Response(response_data)
-
-
-@api_view(["POST"])
-@permission_classes([IsAuthenticated])
-@authentication_classes([TokenAuthentication])
-def reg_category(request):
-    username = request.user
-    category_name = request.data.get("category")
-    try:
+def categories(request):
+    """View to fetch all categories or add a new category"""
+    if request.method == "GET":
+        username = request.user
+        print(f"{username} is requesting categories")
         user = User.objects.get(username=username)
-    except User.DoesNotExist:
-        return Response({"message": "Invalid username"}, status=400)
+        categories = Category.objects.filter(user=user)
+        category_data = {}
 
-    existing_category = Category.objects.filter(user=user, name=category_name).exists()
-    if existing_category:
-        return Response({"message": "Category already exists for the user"}, status=400)
-    if len(category_name) > 0:
-        category = Category.objects.create(name=category_name, user=user)
-        return Response({"message": "Added category successfully"}, status=200)
+        for category in categories:
+            books = Book.objects.filter(category=category)
+            book_serializer = BookSerializer(books, many=True)
+            category_data[category.name] = book_serializer.data
 
-    return Response({"message": "Invalid category name"}, status=400)
+        serializer = CategorySerializer(categories, many=True)
+        response_data = {"categories": serializer.data, "category_data": category_data}
+        return Response(response_data)
+
+    elif request.method == "POST":
+        username = request.user
+        category_name = request.data.get("category")
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response({"message": "Invalid username"}, status=400)
+
+        existing_category = Category.objects.filter(user=user, name=category_name).exists()
+        if existing_category:
+            return Response({"message": "Category already exists for the user"}, status=400)
+        if len(category_name) > 0:
+            category = Category.objects.create(name=category_name, user=user)
+            return Response({"message": "Added category successfully"}, status=200)
+
+        return Response({"message": "Invalid category name"}, status=400)
 
 
 @api_view(["POST"])

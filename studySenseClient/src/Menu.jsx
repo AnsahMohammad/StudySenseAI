@@ -29,7 +29,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pd
 const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
   const [numPages, setNumPages] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [zoom, setZoom] = useState(1);
+  const [zoom, setZoom] = useState(1.8);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -93,7 +93,7 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
   };
 
   return (
-    <div>
+    <div className="primary-container">
       <h2>{selectedItem}</h2>
       <Icon name="trash alternate" size="large" onClick={handleDelete} />
       <MDBContainer>
