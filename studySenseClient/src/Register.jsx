@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { Cookies } from "react-cookie";
 import {
   MDBBtn,
   MDBContainer,
@@ -19,6 +20,7 @@ function App() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const cookies = new Cookies();
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -34,15 +36,12 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Handle registration logic here
     const formData = {
       username: username,
       password: password,
       email: email,
     };
-    // Make the API request to register the user
-    // You can use fetch or axios library for making the POST request
-    // Example using fetch:
+  
     fetch("http://localhost:8000/api/register", {
       method: "POST",
       headers: {
@@ -52,16 +51,25 @@ function App() {
     })
       .then((response) => {
         if (response.ok) {
-          console.log("User registered successfully");
-          window.location.href = "http://localhost:8000/";
+          return response.json();
         } else {
-          console.error("Failed to register user");
+          throw new Error("Failed to register user");
         }
+      })
+      .then((data) => {
+        console.log("User registered successfully");
+        const token = data.token;
+        cookies.set("userToken", token, {
+          path: "/",
+          sameSite: "None",
+          secure: true,
+        });
+        window.location.href = "http://localhost:5173/";
       })
       .catch((error) => {
         console.error("Error occurred while registering user:", error);
       });
-  };
+  };  
 
   return (
     <MDBContainer fluid className="p-0 m-0 h-100">
