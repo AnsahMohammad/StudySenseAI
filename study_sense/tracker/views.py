@@ -87,9 +87,13 @@ def categories(request):
         except User.DoesNotExist:
             return Response({"message": "Invalid username"}, status=400)
 
-        existing_category = Category.objects.filter(user=user, name=category_name).exists()
+        existing_category = Category.objects.filter(
+            user=user, name=category_name
+        ).exists()
         if existing_category:
-            return Response({"message": "Category already exists for the user"}, status=400)
+            return Response(
+                {"message": "Category already exists for the user"}, status=400
+            )
         if len(category_name) > 0:
             category = Category.objects.create(name=category_name, user=user)
             return Response({"message": "Added category successfully"}, status=200)
