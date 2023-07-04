@@ -404,6 +404,7 @@ function App() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Token ${token}`,
       },
     })
       .then((response) => {
