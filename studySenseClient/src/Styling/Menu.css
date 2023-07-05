@@ -63,7 +63,17 @@
 
 
 .user-tab {
-  padding-left: 10px;
+  padding: 3px 5px 0px 0px;
+  background-color:lavender;
+  margin: 0;
+}
+
+.navbar{
+  padding: 0;
+}
+
+.nav-item{
+  border-width: 1;
 }
 
 .selectable-item {

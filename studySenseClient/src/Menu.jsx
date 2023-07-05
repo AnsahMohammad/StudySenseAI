@@ -140,16 +140,21 @@ const Home = () => {
 // Component for the User NavBar display
 const UserBar = ({ username, goHome, logout }) => {
   return (
-    <MDBNavbar expand="lg" light bgColor="light">
-      <MDBContainer fluid>
-        <MDBNavbarNav className="mr-auto mb-2 mb-lg-0">
-          <MDBNavbarItem>
+    <MDBNavbar expand="lg" light bgColor="light" className="user-tab navbar">
+      <MDBContainer fluid className="user-tab">
+        <MDBNavbarNav className="d-flex justify-content-between align-items-center mr-auto mb-2 mb-lg-0">
+          <MDBNavbarItem className="nav-item">
             <MDBNavbarLink active aria-current="page">
               <Icon name="home" size="large" onClick={goHome} />
             </MDBNavbarLink>
           </MDBNavbarItem>
-          <MDBNavbarBrand href="#">{username}</MDBNavbarBrand>
-          <MDBNavbarItem>
+          <MDBNavbarItem className="nav-item">
+            <b><MDBNavbarBrand className="text-center">
+              {username}
+            </MDBNavbarBrand>
+            </b>
+          </MDBNavbarItem>
+          <MDBNavbarItem className="nav-item">
             <button className="btn btn-red" onClick={logout}>
               Logout
             </button>
@@ -425,7 +430,7 @@ function App() {
     <MDBContainer fluid className="p-0 m-0 h-100">
       <MDBRow className="main-page">
         <MDBCol className="main-border secondary p-0">
-          <MDBContainer className="user-tab flex w-1">
+          <MDBContainer className="user-tab user-main flex w-1">
             <UserBar username={user.username} logout={logout} goHome={goHome} />
           </MDBContainer>
           <div className="secondary-accordion">
