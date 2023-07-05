@@ -1,7 +1,9 @@
 """
 View module for tracker app
 """
+from datetime import datetime
 from django.shortcuts import render, redirect
+from django.db.models import F
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import (
@@ -11,9 +13,9 @@ from rest_framework.decorators import (
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
-from .models import Book, Category
+from .models import Book, Category, TimeTracking
 from django.contrib.auth.models import User
-from .serializers import CategorySerializer, BookSerializer
+from .serializers import CategorySerializer, BookSerializer, TimeTrackingSerializer
 
 
 # pylint: disable=E1101
@@ -173,5 +175,47 @@ def delete_category(request):
         return Response({"message": "Invalid username"}, status=400)
     except Category.DoesNotExist:
         return Response({"message": "Category not found"}, status=400)
+    except Exception as e:
+        return Response({"message": str(e)}, status=500)
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+def track_time(request):
+    try:
+        user = request.user
+        book_path = request.data.get("book_path")
+        start_time_str = request.data.get("start_time")
+        end_time_str = request.data.get("end_time")
+
+        # Pre-processing
+        start_time = datetime.fromisoformat(start_time_str[:-1])
+        end_time = datetime.fromisoformat(end_time_str[:-1])
+        book_path = book_path.replace("/media/", "")
+
+        print(f"{user.username} finished reading {book_path} in {end_time - start_time}")
+
+        book = Book.objects.get(file=book_path, user=user)
+        time_spent = (end_time - start_time).total_seconds() / 60.0
+
+        # Update the total_time of the book and its category
+        book.total_time = F("total_time") + time_spent
+        category = Category.objects.get(id=book.category_id)
+        category.total_time = F("total_time") + time_spent
+        category.save()
+        book.save()
+
+        time_tracking = TimeTracking.objects.create(
+            user=user,
+            book=book,
+            start_time=start_time,
+            end_time=end_time,
+        )
+
+        serializer = TimeTrackingSerializer(time_tracking)
+
+        return Response(serializer.data, status=201)
+    except Book.DoesNotExist:
+        return Response({"message": "Invalid book"}, status=400)
     except Exception as e:
         return Response({"message": str(e)}, status=500)

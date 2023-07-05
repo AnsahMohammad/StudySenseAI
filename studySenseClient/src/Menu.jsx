@@ -26,13 +26,21 @@ import "react-pdf/dist/esm/Page/TextLayer.css";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
+// Component to display PDF
 const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
   const [numPages, setNumPages] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [zoom, setZoom] = useState(1.8);
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+  const cookies = new Cookies();
+  const user = cookies.get("user");
+  const PDFUrl = "http://localhost:8000" + selectedPDFUrl;
 
   useEffect(() => {
     setCurrentPage(1);
+    setStartTime(new Date());
+    setEndTime(null);
   }, [selectedItem]);
 
   const handleDelete = () => {
@@ -92,6 +100,45 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
     }
   };
 
+  const handleFinishReading = () => {
+    setEndTime(new Date());
+  };
+
+  useEffect(() => {
+    if (endTime !== null) {
+      const totalTime = endTime - startTime;
+      console.log("Total time spent:", totalTime);
+
+      const data = {
+        book_path: selectedPDFUrl,
+        start_time: startTime.toISOString(),
+        end_time: endTime.toISOString(),
+      };
+
+      fetch("http://localhost:8000/track_time/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${user.token}`,
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Request failed with status: " + response.status);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Time tracked successfully:", data);
+          goHome();
+        })
+        .catch((error) => {
+          console.error("Error occurred while tracking time:", error);
+        });
+    }
+  }, [endTime, startTime, selectedPDFUrl, goHome]);
+
   return (
     <div className="primary-container">
       <h2>{selectedItem}</h2>
@@ -109,14 +156,15 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
           <button onClick={goToNextPage} disabled={currentPage === numPages}>
             Next
           </button>
+          <button onClick={handleFinishReading}>Finish Reading</button>
         </div>
         <div className="pdf-container" style={{ border: "1px solid #ccc" }}>
           <Document
-            file={selectedPDFUrl}
+            file={PDFUrl}
             error={
               <p>
                 Unable to display PDF. Please{" "}
-                <a href={selectedPDFUrl} target="_blank" rel="noopener noreferrer">
+                <a href={PDFUrl} target="_blank" rel="noopener noreferrer">
                   download
                 </a>{" "}
                 it.
@@ -165,7 +213,7 @@ const UserBar = ({ username, goHome, logout }) => {
   );
 };
 
-// Component for displaying the PDFs
+// main Component
 function App() {
   const cookies = new Cookies();
   const user = cookies.get("user");
@@ -390,7 +438,6 @@ function App() {
     // logic to load a pdf
     setSelectedItem(itemName);
     setShowForm(false);
-    itemURL = "http://localhost:8000" + itemURL;
     setSelectedPDFUrl(itemURL);
   };
 

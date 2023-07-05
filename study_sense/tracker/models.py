@@ -26,3 +26,11 @@ class Book(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     total_time = models.FloatField(default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class TimeTracking(models.Model):
+    """Model to track time spent by a user on a PDF"""
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField(null=True, blank=True)
