@@ -1,7 +1,7 @@
 """
 View module for tracker app
 """
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.shortcuts import render, redirect
 from django.db.models import F
 from rest_framework.views import APIView
@@ -96,7 +96,7 @@ def categories(request):
             return Response(
                 {"message": "Category already exists for the user"}, status=400
             )
-        if len(category_name) > 0:
+        if category_name and len(category_name) > 0:
             category = Category.objects.create(name=category_name, user=user)
             return Response({"message": "Added category successfully"}, status=200)
 
@@ -219,3 +219,90 @@ def track_time(request):
         return Response({"message": "Invalid book"}, status=400)
     except Exception as e:
         return Response({"message": str(e)}, status=500)
+
+# in the future can make all the chart fetch within one view
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+def get_category_history(request):
+    """
+    returns the past 7 day history category-wise
+    """
+    username = request.user
+    user = User.objects.get(username=username)
+    categories = Category.objects.filter(user=user)
+
+    data = {
+        "history": {}
+    }
+
+    # Set the date range for the past 7 days
+    today = datetime.now().date()
+    date_range = [today - timedelta(days=i) for i in range(7)]
+    
+    for category in categories:
+        category_data = []
+        
+        for date in date_range:
+            # Filter time trackings for the specific category and date
+            time_trackings = TimeTracking.objects.filter(
+                book__category=category,
+                start_time__date=date
+            )
+            total_time = sum(
+                (tracking.end_time - tracking.start_time).total_seconds() / 3600
+                for tracking in time_trackings
+            )
+            category_data.append(total_time)
+
+        # Add the category data to the response
+        data["history"][category.name] = category_data
+    
+    return Response(data, status=200)
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+def get_cat_history(request):
+    """
+    returns time spent on each category
+    """
+    username = request.user
+    user = User.objects.get(username=username)
+    categories = Category.objects.filter(user=user)
+
+    data = {}
+    
+    for category in categories:
+        data[category.name] = category.total_time
+    
+    return Response(data, status= 200)
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+def get_daily_history(request):
+    """
+    returns the daily time spend
+    """
+    username = request.user
+    user = User.objects.get(username=username)
+
+    # to store data of each day
+    data = []
+
+    # Set the date range for the past 7 days
+    today = datetime.now().date()
+    date_range = [today - timedelta(days=i) for i in range(7)]
+    
+    for date in date_range:
+        time_trackings = TimeTracking.objects.filter(
+            start_time__date=date
+        )
+        total_time = sum(
+            (tracking.end_time - tracking.start_time).total_seconds() / 3600
+            for tracking in time_trackings
+        )
+        data.append(total_time)
+    
+    return Response({"timeline" : data}, status=200)

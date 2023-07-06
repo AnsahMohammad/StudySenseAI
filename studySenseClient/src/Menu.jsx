@@ -23,7 +23,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import "./Styling/Menu.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
-import Chart from "./data"
+import Chart from "./Graph"
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
