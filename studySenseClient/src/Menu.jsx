@@ -23,6 +23,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import "./Styling/Menu.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
+import Chart from "./data"
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -182,7 +183,12 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
 
 // Component for the default home display
 const Home = () => {
-  return <h1>Hi</h1>;
+  return (
+    <div>
+      <h1>Hi</h1>
+      <Chart />
+    </div>
+  );
 };
 
 // Component for the User NavBar display
