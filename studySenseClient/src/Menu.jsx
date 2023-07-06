@@ -183,10 +183,12 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
 
 // Component for the default home display
 const Home = () => {
+  const cookies = new Cookies();
+  const user = cookies.get("user");
   return (
     <div>
       <h1>Hi</h1>
-      <Chart />
+      <Chart user={user}/>
     </div>
   );
 };

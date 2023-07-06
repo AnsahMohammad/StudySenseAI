@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import "./Styling/Charts.css";
 
-const ChartComponent = () => {
+const ChartComponent = ({user}) => {
+  const token = user.token
   const [barOptions] = useState({
     chart: {
       id: 'basic-bar',
@@ -83,7 +84,7 @@ const ChartComponent = () => {
     }
   ]);
 
-  const [donutOptions] = useState({
+  const [donutOptions, setDonutOptions] = useState({
     chart: {
       id: 'donut-chart',
       type: 'donut',
@@ -93,13 +94,17 @@ const ChartComponent = () => {
         show: false
       }
     },
+    title: {
+      text: 'Total Time spent',
+      align: 'center'
+    },
     responsive: [
       {
         breakpoint: 480,
         options: {
           chart: {
-            width: '100%',
-            height: '300px'
+            width: '200%',
+            height: '500px'
           },
           legend: {
             position: 'bottom'
@@ -107,8 +112,8 @@ const ChartComponent = () => {
         }
       }
     ],
-    series: [44, 55, 41, 17, 15],
-    labels: ['Label 1', 'Label 2', 'Label 3', 'Label 4', 'Label 5']
+    series: [30, 40, 20],
+    labels: ["Chem", "MA101", "PHY203"]
   });
 
   const [areaOptions] = useState({
@@ -155,6 +160,28 @@ const ChartComponent = () => {
       data: [30, 40, 35, 50, 49, 62, 70]
     }
   ]);
+
+  useEffect(() => {
+  fetch('http://localhost:8000/data/category_history_pie/', {
+    method: "GET",
+    headers: {
+      "Authorization": `Token ${token}`,
+    }
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      const series = Object.values(data);
+      const labels = Object.keys(data);
+      setDonutOptions((prevOptions) => ({
+        ...prevOptions,
+        series,
+        labels
+      }));
+    })
+    .catch((error) => {
+      console.error('Error fetching data:', error);
+    });
+}, []);
 
   return (
     <div className="chart-container">
