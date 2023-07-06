@@ -253,7 +253,7 @@ def get_category_history(request):
                 (tracking.end_time - tracking.start_time).total_seconds() / 3600
                 for tracking in time_trackings
             )
-            category_data.append(total_time)
+            category_data.append(round(total_time,2))
 
         # Add the category data to the response
         data["history"][category.name] = category_data

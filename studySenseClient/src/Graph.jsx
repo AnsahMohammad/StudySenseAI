@@ -4,6 +4,21 @@ import "./Styling/Charts.css";
 
 const ChartComponent = ({ user }) => {
   const token = user.token;
+
+  const today = new Date();
+  const dateLabels = [];
+
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - i);
+    const dateString = `${date.getDate()} ${date.toLocaleString("default", {
+      month: "short",
+    })}`;
+    dateLabels.push(dateString);
+  }
+
+  dateLabels.reverse();
+
   const [barOptions] = useState({
     chart: {
       id: "basic-bar",
@@ -46,15 +61,8 @@ const ChartComponent = ({ user }) => {
       },
     },
     xaxis: {
-      type: "datetime",
-      categories: [
-        "01/01/2011 GMT",
-        "01/02/2011 GMT",
-        "01/03/2011 GMT",
-        "01/04/2011 GMT",
-        "01/05/2011 GMT",
-        "01/06/2011 GMT",
-      ],
+      type: "string",
+      categories: dateLabels,
     },
     legend: {
       position: "right",
@@ -64,8 +72,8 @@ const ChartComponent = ({ user }) => {
       opacity: 1,
     },
   });
-
-  const [barSeries] = useState([
+  
+  const [barSeries, setBarSeries] = useState([
     {
       name: "PRODUCT A",
       data: [44, 55, 41, 67, 22, 43],
@@ -115,20 +123,6 @@ const ChartComponent = ({ user }) => {
     series: [30, 40, 20],
     labels: ["Chem", "MA101", "PHY203"],
   });
-
-  const today = new Date();
-  const dateLabels = [];
-
-  for (let i = 6; i >= 0; i--) {
-    const date = new Date(today);
-    date.setDate(date.getDate() - i);
-    const dateString = `${date.getDate()} ${date.toLocaleString("default", {
-      month: "short",
-    })}`;
-    dateLabels.push(dateString);
-  }
-
-  dateLabels.reverse();
 
   const [areaOptions, setAreaOptions] = useState({
     chart: {
@@ -214,6 +208,25 @@ const ChartComponent = ({ user }) => {
       .then((data) => {
         const timelineData = data.timeline;
         setAreaSeries([{ name: "Weekly Analysis", data: timelineData }]);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+
+    fetch("http://127.0.0.1:8000/data/category_history/", {
+      method: "GET",
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const historyData = data.history;
+        const updatedSeries = Object.keys(historyData).map((category) => ({
+          name: category,
+          data: historyData[category],
+        }));
+        setBarSeries(updatedSeries);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
