@@ -303,6 +303,6 @@ def get_daily_history(request):
             (tracking.end_time - tracking.start_time).total_seconds() / 3600
             for tracking in time_trackings
         )
-        data.append(total_time)
+        data.append(round(total_time,1))
     
     return Response({"timeline" : data}, status=200)

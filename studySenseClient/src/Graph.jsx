@@ -1,34 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import ReactApexChart from 'react-apexcharts';
+import React, { useState, useEffect } from "react";
+import ReactApexChart from "react-apexcharts";
 import "./Styling/Charts.css";
 
-const ChartComponent = ({user}) => {
-  const token = user.token
+const ChartComponent = ({ user }) => {
+  const token = user.token;
   const [barOptions] = useState({
     chart: {
-      id: 'basic-bar',
-      type: 'bar',
+      id: "basic-bar",
+      type: "bar",
       height: 350,
       width: 500,
       stacked: true,
       toolbar: {
-        show: true
+        show: true,
       },
       zoom: {
-        enabled: true
-      }
+        enabled: true,
+      },
     },
     responsive: [
       {
         breakpoint: 480,
         options: {
           legend: {
-            position: 'bottom',
+            position: "bottom",
             offsetX: -10,
-            offsetY: 0
-          }
-        }
-      }
+            offsetY: 0,
+          },
+        },
+      },
     ],
     plotOptions: {
       bar: {
@@ -38,150 +38,187 @@ const ChartComponent = ({user}) => {
           total: {
             enabled: true,
             style: {
-              fontSize: '13px',
-              fontWeight: 900
-            }
-          }
-        }
-      }
+              fontSize: "13px",
+              fontWeight: 900,
+            },
+          },
+        },
+      },
     },
     xaxis: {
-      type: 'datetime',
+      type: "datetime",
       categories: [
-        '01/01/2011 GMT',
-        '01/02/2011 GMT',
-        '01/03/2011 GMT',
-        '01/04/2011 GMT',
-        '01/05/2011 GMT',
-        '01/06/2011 GMT'
-      ]
+        "01/01/2011 GMT",
+        "01/02/2011 GMT",
+        "01/03/2011 GMT",
+        "01/04/2011 GMT",
+        "01/05/2011 GMT",
+        "01/06/2011 GMT",
+      ],
     },
     legend: {
-      position: 'right',
-      offsetY: 40
+      position: "right",
+      offsetY: 40,
     },
     fill: {
-      opacity: 1
-    }
+      opacity: 1,
+    },
   });
 
   const [barSeries] = useState([
     {
-      name: 'PRODUCT A',
-      data: [44, 55, 41, 67, 22, 43]
+      name: "PRODUCT A",
+      data: [44, 55, 41, 67, 22, 43],
     },
     {
-      name: 'PRODUCT B',
-      data: [13, 23, 20, 8, 13, 27]
+      name: "PRODUCT B",
+      data: [13, 23, 20, 8, 13, 27],
     },
     {
-      name: 'PRODUCT C',
-      data: [11, 17, 15, 15, 21, 14]
+      name: "PRODUCT C",
+      data: [11, 17, 15, 15, 21, 14],
     },
     {
-      name: 'PRODUCT D',
-      data: [21, 7, 25, 13, 22, 8]
-    }
+      name: "PRODUCT D",
+      data: [21, 7, 25, 13, 22, 8],
+    },
   ]);
 
   const [donutOptions, setDonutOptions] = useState({
     chart: {
-      id: 'donut-chart',
-      type: 'donut',
-      width: '100%',
-      height: '500px',
+      id: "donut-chart",
+      type: "donut",
+      width: "100%",
+      height: "500px",
       toolbar: {
-        show: false
-      }
+        show: false,
+      },
     },
     title: {
-      text: 'Total Time spent',
-      align: 'center'
+      text: "Total Time spent",
+      align: "center",
     },
     responsive: [
       {
         breakpoint: 480,
         options: {
           chart: {
-            width: '200%',
-            height: '500px'
+            width: "200%",
+            height: "500px",
           },
           legend: {
-            position: 'bottom'
-          }
-        }
-      }
+            position: "bottom",
+          },
+        },
+      },
     ],
     series: [30, 40, 20],
-    labels: ["Chem", "MA101", "PHY203"]
+    labels: ["Chem", "MA101", "PHY203"],
   });
 
-  const [areaOptions] = useState({
+  const today = new Date();
+  const dateLabels = [];
+
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - i);
+    const dateString = `${date.getDate()} ${date.toLocaleString("default", {
+      month: "short",
+    })}`;
+    dateLabels.push(dateString);
+  }
+
+  dateLabels.reverse();
+
+  const [areaOptions, setAreaOptions] = useState({
     chart: {
-      id: 'area-chart',
-      type: 'area',
+      id: "area-chart",
+      type: "area",
       stacked: false,
       height: 350,
       zoom: {
-        type: 'x',
-        enabled: true,
-        autoScaleYaxis: true
+        type: "x",
+        enabled: false,
+        autoScaleYaxis: false,
       },
       toolbar: {
-        autoSelected: 'zoom'
-      }
+        autoSelected: "zoom",
+      },
     },
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     markers: {
-      size: 0
+      size: 0,
     },
     title: {
-      text: 'Stock Price Movement',
-      align: 'left'
+      text: "1 Week timeline",
+      align: "center",
     },
     fill: {
-      type: 'gradient',
+      type: "gradient",
       gradient: {
         shadeIntensity: 1,
         inverseColors: false,
         opacityFrom: 0.5,
         opacityTo: 0,
-        stops: [0, 90, 100]
-      }
+        stops: [0, 90, 100],
+      },
     },
-    
+    xaxis: {
+      type: "string",
+      categories: dateLabels,
+    },
+    yaxis: {
+      title: {
+        text: "Time Spent (in minutes)",
+      },
+    },
   });
 
-  const [areaSeries] = useState([
+  const [areaSeries, setAreaSeries] = useState([
     {
-      name: 'XYZ MOTORS',
-      data: [30, 40, 35, 50, 49, 62, 70]
-    }
+      name: "1 Week Timeline",
+      data: [30, 40, 35, 50, 49, 62, 70],
+    },
   ]);
 
   useEffect(() => {
-  fetch('http://localhost:8000/data/category_history_pie/', {
-    method: "GET",
-    headers: {
-      "Authorization": `Token ${token}`,
-    }
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      const series = Object.values(data);
-      const labels = Object.keys(data);
-      setDonutOptions((prevOptions) => ({
-        ...prevOptions,
-        series,
-        labels
-      }));
+    fetch("http://localhost:8000/data/category_history_pie/", {
+      method: "GET",
+      headers: {
+        Authorization: `Token ${token}`,
+      },
     })
-    .catch((error) => {
-      console.error('Error fetching data:', error);
-    });
-}, []);
+      .then((response) => response.json())
+      .then((data) => {
+        const series = Object.values(data);
+        const labels = Object.keys(data);
+        setDonutOptions((prevOptions) => ({
+          ...prevOptions,
+          series,
+          labels,
+        }));
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+
+    fetch("http://localhost:8000/data/timeline_data", {
+      method: "GET",
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const timelineData = data.timeline;
+        setAreaSeries([{ name: "Weekly Analysis", data: timelineData }]);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
 
   return (
     <div className="chart-container">
@@ -203,11 +240,7 @@ const ChartComponent = ({user}) => {
       </div>
 
       <div className="area-chart">
-        <ReactApexChart
-          options={areaOptions}
-          series={areaSeries}
-          type="area"
-        />
+        <ReactApexChart options={areaOptions} series={areaSeries} type="area" />
       </div>
     </div>
   );
