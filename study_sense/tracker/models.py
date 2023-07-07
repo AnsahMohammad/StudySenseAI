@@ -38,6 +38,7 @@ class TimeTracking(models.Model):
     total_time = models.DurationField(null=True, blank=True, default=0)
 
     def save(self, *args, **kwargs):
+        """save track times"""
         if self.start_time and self.end_time:
             self.total_time = self.end_time - self.start_time
         super().save(*args, **kwargs)
