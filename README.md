@@ -6,7 +6,12 @@
 ![Code lint: ESLint](https://img.shields.io/badge/JS%20linting-ESLint-green)
 ![Code lint: Pylint](https://img.shields.io/badge/Py%20linting-Pylint-yellow)
 
-## A PDF Reader to Focus and gather your data.
+### A PDF Reader to Focus and Gather your data.
+A web application that allows users to easily upload and organize PDF files. 
+With intuitive **folder organization**, users can keep their PDFs in order and focus on each document without distractions. The application also provides **valuable analytics** on reading habits.  
+Users can track the time spent on each PDF, gain insights into daily reading time, and identify popular reads.   
+With secure authentication using tokens, users can confidently manage their PDFs while ensuring **data privacy**.
+
 <br>
 
 ## **Quick Start**
@@ -26,13 +31,7 @@ chmod +x dev.sh
 
 ---
 
-## **Screenshots**
-![image](./assets/shot1.png)
-![image](./assets/dashboard.png)
-![image](./assets/shot2.png)
-
----
-## **Features**
+## **Highlights**
 
 1. **Organize into folders:** Can organize the PDFs into a folder.
 
@@ -44,6 +43,12 @@ chmod +x dev.sh
 
 ---
 
+## **Screenshots**
+![image](./assets/shot1.png)
+![image](./assets/dashboard.png)
+![image](./assets/shot2.png)
+
+---
 ### How to Give Feedback
 
 We encourage your feedback! You can share your thoughts with us by:
