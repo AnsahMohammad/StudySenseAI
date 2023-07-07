@@ -13,6 +13,7 @@ class BookSerializer(serializers.ModelSerializer):
         model = Book
         fields = ("id", "name", "category", "file", "created_at", "total_time")
 
+
 class TimeTrackingSerializer(serializers.ModelSerializer):
     class Meta:
         model = TimeTracking

@@ -178,6 +178,7 @@ def delete_category(request):
     except Exception as e:
         return Response({"message": str(e)}, status=500)
 
+
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
@@ -193,7 +194,9 @@ def track_time(request):
         end_time = datetime.fromisoformat(end_time_str[:-1])
         book_path = book_path.replace("/media/", "")
 
-        print(f"{user.username} finished reading {book_path} in {end_time - start_time}")
+        print(
+            f"{user.username} finished reading {book_path} in {end_time - start_time}"
+        )
 
         book = Book.objects.get(file=book_path, user=user)
         time_spent = (end_time - start_time).total_seconds() / 60.0
@@ -220,6 +223,7 @@ def track_time(request):
     except Exception as e:
         return Response({"message": str(e)}, status=500)
 
+
 # in the future can make all the chart fetch within one view
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
@@ -232,33 +236,31 @@ def get_category_history(request):
     user = User.objects.get(username=username)
     categories = Category.objects.filter(user=user)
 
-    data = {
-        "history": {}
-    }
+    data = {"history": {}}
 
     # Set the date range for the past 7 days
     today = datetime.now().date()
     date_range = [today - timedelta(days=i) for i in range(7)]
-    
+
     for category in categories:
         category_data = []
-        
+
         for date in date_range:
             # Filter time trackings for the specific category and date
             time_trackings = TimeTracking.objects.filter(
-                book__category=category,
-                start_time__date=date
+                book__category=category, start_time__date=date
             )
             total_time = sum(
                 (tracking.end_time - tracking.start_time).total_seconds() / 3600
                 for tracking in time_trackings
             )
-            category_data.append(round(total_time,2))
+            category_data.append(round(total_time, 2))
 
         # Add the category data to the response
         data["history"][category.name] = category_data
-    
+
     return Response(data, status=200)
+
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
@@ -272,11 +274,12 @@ def get_cat_history(request):
     categories = Category.objects.filter(user=user)
 
     data = {}
-    
+
     for category in categories:
         data[category.name] = category.total_time
-    
-    return Response(data, status= 200)
+
+    return Response(data, status=200)
+
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
@@ -294,15 +297,43 @@ def get_daily_history(request):
     # Set the date range for the past 7 days
     today = datetime.now().date()
     date_range = [today - timedelta(days=i) for i in range(7)]
-    
+
     for date in date_range:
-        time_trackings = TimeTracking.objects.filter(
-            start_time__date=date
-        )
+        time_trackings = TimeTracking.objects.filter(start_time__date=date, user=user)
         total_time = sum(
             (tracking.end_time - tracking.start_time).total_seconds() / 3600
             for tracking in time_trackings
         )
-        data.append(round(total_time,1))
-    
-    return Response({"timeline" : data}, status=200)
+        data.append(round(total_time, 1))
+
+    return Response({"timeline": data}, status=200)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+def get_top_reads(request):
+    """
+    Returns the daily time spent on top reads.
+    """
+    try:
+        user = User.objects.get(username=request.user)
+        data = {}
+        books = Book.objects.filter(user=user)
+
+        for book in books:
+            data[book.name] = book.total_time
+
+        if len(data) < 2:
+            return Response(
+                {"top_reads": ["File1", "File2"], "message": "Add more files"},
+                status=200,
+            )
+
+        new_data = list(dict(sorted(data.items(), key=lambda x: x[1])).keys())
+        data = new_data[: min(3, len(new_data))]
+
+        return Response({"top_reads": data}, status=200)
+
+    except Exception as e:
+        return Response({"message": str(e)}, status=400)
