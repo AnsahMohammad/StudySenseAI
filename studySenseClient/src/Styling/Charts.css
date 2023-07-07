@@ -1,10 +1,8 @@
-.bar-chart{
+.bar-chart {
   flex-basis: 30%;
-
 }
-.donut-chart{
+.donut-chart {
   flex-basis: 50%;
-    
 }
 .area-chart {
   flex-basis: 50%;

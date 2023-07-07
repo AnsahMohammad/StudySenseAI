@@ -197,7 +197,7 @@ const ChartComponent = ({ user }) => {
       type: "bar",
       height: 350,
       toolbar: {
-        show: false
+        show: false,
       },
     },
     plotOptions: {
@@ -211,9 +211,7 @@ const ChartComponent = ({ user }) => {
     dataLabels: {
       enabled: true,
       formatter: function (val, opt) {
-        return (
-          opt.w.globals.labels[opt.dataPointIndex]
-        );
+        return opt.w.globals.labels[opt.dataPointIndex];
       },
       dropShadow: {
         enabled: true,
@@ -223,8 +221,8 @@ const ChartComponent = ({ user }) => {
       },
     },
     series: {
-        name: "Funnel Series",
-        data: [1380, 1100, 990, 880, 740, 548, 330, 200],
+      name: "Funnel Series",
+      data: [1380, 1100, 990, 880, 740, 548, 330, 200],
     },
     title: {
       text: "Your Top reads",
@@ -313,31 +311,31 @@ const ChartComponent = ({ user }) => {
         console.error("Error fetching data:", error);
       });
 
-      fetch("http://localhost:8000/data/top_reads/", {
-        method: "GET",
-        headers: {
-          Authorization: `Token ${token}`,
-        },
+    fetch("http://localhost:8000/data/top_reads/", {
+      method: "GET",
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const topReads = data.top_reads;
+        setFunnelOptions((prevOptions) => ({
+          ...prevOptions,
+          xaxis: {
+            categories: topReads,
+          },
+        }));
+        setFunnelSeries([
+          {
+            name: "Funnel Series",
+            data: data.series,
+          },
+        ]);
       })
-        .then((response) => response.json())
-        .then((data) => {
-          const topReads = data.top_reads;
-          setFunnelOptions((prevOptions) => ({
-            ...prevOptions,
-            xaxis: {
-              categories: topReads,
-            },
-          }));
-          setFunnelSeries([
-            {
-              name: "Funnel Series",
-              data: data.series,
-            },
-          ]);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   }, []);
 
   return (

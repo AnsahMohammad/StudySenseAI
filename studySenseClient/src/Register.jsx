@@ -41,7 +41,7 @@ function App() {
       password: password,
       email: email,
     };
-  
+
     fetch("http://localhost:8000/api/register", {
       method: "POST",
       headers: {
@@ -69,7 +69,7 @@ function App() {
       .catch((error) => {
         console.error("Error occurred while registering user:", error);
       });
-  };  
+  };
 
   return (
     <MDBContainer fluid className="p-0 m-0 h-100">

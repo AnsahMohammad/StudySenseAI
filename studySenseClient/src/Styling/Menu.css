@@ -39,7 +39,7 @@
   margin-bottom: 10px;
 }
 
-.home{
+.home {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -53,7 +53,7 @@
   margin: 0;
 }
 
-.accordion-body{
+.accordion-body {
   padding: 0;
 }
 
@@ -67,18 +67,17 @@
   order: 1;
 }
 
-
 .user-tab {
   padding: 3px 5px 0px 0px;
-  background-color:lavender;
+  background-color: lavender;
   margin: 0;
 }
 
-.navbar{
+.navbar {
   padding: 0;
 }
 
-.nav-item{
+.nav-item {
   border-width: 1;
 }
 
@@ -108,11 +107,11 @@
   background-color: #ebebeb;
 }
 
-.book-add{
+.book-add {
   background-color: #e1fccf;
 }
 
-.del-cat{
+.del-cat {
   background-color: #fccfcf;
 }
 
@@ -120,7 +119,7 @@
   background-color: #d6d6d6;
 }
 
-.btn-red{
+.btn-red {
   border-color: red;
 }
 

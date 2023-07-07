@@ -69,7 +69,7 @@ function App() {
         console.log("Login Failed");
         console.error("Error occurred while logging in:", error);
       });
-  };  
+  };
 
   return (
     <MDBContainer fluid className="p-0 m-0 h-100">

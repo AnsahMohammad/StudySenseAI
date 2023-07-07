@@ -23,7 +23,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import "./Styling/Menu.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
-import Chart from "./Graph"
+import Chart from "./Graph";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -47,13 +47,13 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
   const handleDelete = () => {
     const cookies = new Cookies();
     const user = cookies.get("user");
-    const token = user.token
+    const token = user.token;
 
     fetch("http://localhost:8000/delete_file/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Token ${token}`,
+        Authorization: `Token ${token}`,
       },
       body: JSON.stringify({
         username: token.username,
@@ -188,7 +188,7 @@ const Home = () => {
   return (
     <MDBContainer className="home">
       <h1>Hi</h1>
-      <Chart user={user}/>
+      <Chart user={user} />
     </MDBContainer>
   );
 };
@@ -205,9 +205,10 @@ const UserBar = ({ username, goHome, logout }) => {
             </MDBNavbarLink>
           </MDBNavbarItem>
           <MDBNavbarItem className="nav-item">
-            <b><MDBNavbarBrand className="text-center">
-              {username}
-            </MDBNavbarBrand>
+            <b>
+              <MDBNavbarBrand className="text-center">
+                {username}
+              </MDBNavbarBrand>
             </b>
           </MDBNavbarItem>
           <MDBNavbarItem className="nav-item">
@@ -225,7 +226,7 @@ const UserBar = ({ username, goHome, logout }) => {
 function App() {
   const cookies = new Cookies();
   const user = cookies.get("user");
-  const token = user.token
+  const token = user.token;
   // handling authentication
   if (!token) {
     window.location.href = "http://localhost:5173/";
@@ -268,7 +269,7 @@ function App() {
       fetch("http://localhost:8000/add_file/", {
         method: "POST",
         headers: {
-          "Authorization": `Token ${token}`,
+          Authorization: `Token ${token}`,
         },
         body: formData,
       })
@@ -357,7 +358,7 @@ function App() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Token ${token}`,
+        Authorization: `Token ${token}`,
       },
       body: JSON.stringify({
         category: newCategory,
@@ -392,7 +393,7 @@ function App() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Token ${token}`,
+        Authorization: `Token ${token}`,
       },
       body: JSON.stringify({
         category_name: selectedCat,
@@ -414,13 +415,12 @@ function App() {
   };
 
   const fetchCategories = () => {
-
     // fetcging the categories from the server
     fetch("http://localhost:8000/categories/", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Token ${token}`,
+        Authorization: `Token ${token}`,
       },
     })
       .then((response) => {
@@ -464,7 +464,7 @@ function App() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Token ${token}`,
+        Authorization: `Token ${token}`,
       },
     })
       .then((response) => {
