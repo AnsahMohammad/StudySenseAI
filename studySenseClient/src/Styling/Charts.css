@@ -1,7 +1,11 @@
-.chart-container {
-display: flex;
-}
+.bar-chart{
+  flex-basis: 30%;
 
-.bar-chart {
-flex: 1;
+}
+.donut-chart{
+  flex-basis: 50%;
+    
+}
+.area-chart {
+  flex-basis: 50%;
 }

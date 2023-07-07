@@ -39,6 +39,12 @@
   margin-bottom: 10px;
 }
 
+.home{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .secondary-accordion {
   width: 100%;
 }

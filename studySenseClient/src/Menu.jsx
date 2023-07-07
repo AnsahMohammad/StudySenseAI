@@ -186,10 +186,10 @@ const Home = () => {
   const cookies = new Cookies();
   const user = cookies.get("user");
   return (
-    <div>
+    <MDBContainer className="home">
       <h1>Hi</h1>
       <Chart user={user}/>
-    </div>
+    </MDBContainer>
   );
 };
 

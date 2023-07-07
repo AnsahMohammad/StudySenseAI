@@ -75,19 +75,19 @@ const ChartComponent = ({ user }) => {
   
   const [barSeries, setBarSeries] = useState([
     {
-      name: "PRODUCT A",
+      name: "MA101",
       data: [44, 55, 41, 67, 22, 43],
     },
     {
-      name: "PRODUCT B",
+      name: "CS203",
       data: [13, 23, 20, 8, 13, 27],
     },
     {
-      name: "PRODUCT C",
+      name: "PHY712",
       data: [11, 17, 15, 15, 21, 14],
     },
     {
-      name: "PRODUCT D",
+      name: "CHEM102",
       data: [21, 7, 25, 13, 22, 8],
     },
   ]);
@@ -96,8 +96,8 @@ const ChartComponent = ({ user }) => {
     chart: {
       id: "donut-chart",
       type: "donut",
-      width: "100%",
-      height: "500px",
+      width: 300,
+      height: 300,
       toolbar: {
         show: false,
       },
@@ -130,6 +130,7 @@ const ChartComponent = ({ user }) => {
       type: "area",
       stacked: false,
       height: 350,
+      width: 350,
       zoom: {
         type: "x",
         enabled: false,
@@ -234,28 +235,37 @@ const ChartComponent = ({ user }) => {
   }, []);
 
   return (
-    <div className="chart-container">
-      <div className="bar-chart">
-        <ReactApexChart
-          options={barOptions}
-          series={barSeries}
-          type="bar"
-          height={350}
-        />
-      </div>
-
+    <>
       <div className="donut-chart">
         <ReactApexChart
           options={donutOptions}
           series={donutOptions.series}
           type="donut"
+          height={450}
+          width={450}
+        />
+      </div>
+
+      <div className="bar-chart">
+        <ReactApexChart
+          options={barOptions}
+          series={barSeries}
+          type="bar"
+          height={400}
+          width={550}
         />
       </div>
 
       <div className="area-chart">
-        <ReactApexChart options={areaOptions} series={areaSeries} type="area" />
+        <ReactApexChart 
+          options={areaOptions}
+          series={areaSeries}
+          type="area"
+          height={450}
+          width={550}
+        />
       </div>
-    </div>
+    </>
   );
 };
 
