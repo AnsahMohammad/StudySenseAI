@@ -4,7 +4,7 @@ View module for tracker app
 from datetime import datetime, timedelta
 from django.shortcuts import render, redirect
 from django.db.models import F
-from rest_framework.views import APIView
+from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework.decorators import (
     api_view,
@@ -14,11 +14,9 @@ from rest_framework.decorators import (
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .models import Book, Category, TimeTracking
-from django.contrib.auth.models import User
 from .serializers import CategorySerializer, BookSerializer, TimeTrackingSerializer
 
-
-# pylint: disable=E1101
+# pylint: disable=E1101, W0718, W0621, R1710
 def upload_pdf(request):
     """View which takes the input from the form and stores in Db"""
     if request.method == "POST":
@@ -64,7 +62,9 @@ def record_time(request):
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def categories(request):
-    """View to fetch all categories or add a new category"""
+    """
+    View to fetch all categories or add a new category
+    """
     if request.method == "GET":
         username = request.user
         print(f"{username} is requesting categories")
@@ -81,32 +81,33 @@ def categories(request):
         response_data = {"categories": serializer.data, "category_data": category_data}
         return Response(response_data)
 
-    elif request.method == "POST":
+    if request.method == "POST":
         username = request.user
         category_name = request.data.get("category")
         try:
             user = User.objects.get(username=username)
+            existing_category = Category.objects.filter(
+                user=user, name=category_name
+            ).exists()
+            if existing_category:
+                return Response(
+                    {"message": "Category already exists for the user"}, status=400
+                )
+            if category_name and len(category_name) > 0:
+                category = Category.objects.create(name=category_name, user=user)
+                return Response({"message": "Added category successfully"}, status=200)
+
+            return Response({"message": "Invalid category name"}, status=400)
         except User.DoesNotExist:
             return Response({"message": "Invalid username"}, status=400)
-
-        existing_category = Category.objects.filter(
-            user=user, name=category_name
-        ).exists()
-        if existing_category:
-            return Response(
-                {"message": "Category already exists for the user"}, status=400
-            )
-        if category_name and len(category_name) > 0:
-            category = Category.objects.create(name=category_name, user=user)
-            return Response({"message": "Added category successfully"}, status=200)
-
-        return Response({"message": "Invalid category name"}, status=400)
-
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def add_file(request):
+    """
+    View to add PDF
+    """
     form_data = request.POST
     username = request.user
     file_name = form_data.get("name")
@@ -123,13 +124,16 @@ def add_file(request):
     book = Book.objects.create(
         name=file_name, category=category, file=uploaded_file, user=user
     )
-    return Response({"message": "File added successfully"}, status=200)
+    return Response({"message": f"{book.id} File added successfully"}, status=200)
 
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def delete_file(request):
+    """
+    deletes the file
+    """
     username = request.user
     file_name = request.data.get("file_name")
     print(f"{username} is deleting file {file_name}")
@@ -146,14 +150,17 @@ def delete_file(request):
         return Response({"message": "Invalid username"}, status=400)
     except Book.DoesNotExist:
         return Response({"message": "File not found"}, status=400)
-    except Exception as e:
-        return Response({"message": str(e)}, status=500)
+    except Exception as error_msg:
+        return Response({"message": str(error_msg)}, status=500)
 
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def delete_category(request):
+    """
+    deletes category
+    """
     username = request.user
     category_name = request.data.get("category_name")
     print(f"{username} is deleting category {category_name}")
@@ -175,14 +182,19 @@ def delete_category(request):
         return Response({"message": "Invalid username"}, status=400)
     except Category.DoesNotExist:
         return Response({"message": "Category not found"}, status=400)
-    except Exception as e:
-        return Response({"message": str(e)}, status=500)
+    except Exception as error_msg:
+        return Response({"message": str(error_msg)}, status=500)
 
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 @authentication_classes([TokenAuthentication])
 def track_time(request):
+    """
+    View to track time
+    recieves the start and end time of a particular book
+    Stores the data in the db
+    """
     try:
         user = request.user
         book_path = request.data.get("book_path")
@@ -220,8 +232,8 @@ def track_time(request):
         return Response(serializer.data, status=201)
     except Book.DoesNotExist:
         return Response({"message": "Invalid book"}, status=400)
-    except Exception as e:
-        return Response({"message": str(e)}, status=500)
+    except Exception as error_msg:
+        return Response({"message": str(error_msg)}, status=500)
 
 
 # in the future can make all the chart fetch within one view
@@ -336,5 +348,5 @@ def get_top_reads(request):
 
         return Response({"top_reads": data, "series": series}, status=200)
 
-    except Exception as e:
-        return Response({"message": str(e)}, status=400)
+    except Exception as error_msg:
+        return Response({"message": str(error_msg)}, status=400)

@@ -43,10 +43,10 @@ chmod +x dev.sh
 
 ---
 
-## **Screenshots**
+<!-- ## **Screenshots**
 ![image](./assets/shot1.png)
 ![image](./assets/dashboard.png)
-![image](./assets/shot2.png)
+![image](./assets/shot2.png) -->
 
 ---
 ### How to Give Feedback
