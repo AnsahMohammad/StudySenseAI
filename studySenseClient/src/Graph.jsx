@@ -27,10 +27,17 @@ const ChartComponent = ({ user }) => {
       width: 500,
       stacked: true,
       toolbar: {
-        show: true,
+        show: false,
       },
       zoom: {
         enabled: true,
+      },
+    },
+    title: {
+      text: "Category share",
+      align: "center",
+      style: {
+        fontSize: "25px",
       },
     },
     responsive: [
@@ -72,7 +79,7 @@ const ChartComponent = ({ user }) => {
       opacity: 1,
     },
   });
-  
+
   const [barSeries, setBarSeries] = useState([
     {
       name: "MA101",
@@ -105,6 +112,9 @@ const ChartComponent = ({ user }) => {
     title: {
       text: "Total Time spent",
       align: "center",
+      style: {
+        fontSize: "25px",
+      },
     },
     responsive: [
       {
@@ -137,6 +147,7 @@ const ChartComponent = ({ user }) => {
         autoScaleYaxis: false,
       },
       toolbar: {
+        show: false,
         autoSelected: "zoom",
       },
     },
@@ -149,6 +160,9 @@ const ChartComponent = ({ user }) => {
     title: {
       text: "1 Week timeline",
       align: "center",
+      style: {
+        fontSize: "25px",
+      },
     },
     fill: {
       type: "gradient",
@@ -175,6 +189,72 @@ const ChartComponent = ({ user }) => {
     {
       name: "1 Week Timeline",
       data: [30, 40, 35, 50, 49, 62, 70],
+    },
+  ]);
+
+  const [funnelOptions, setFunnelOptions] = useState({
+    chart: {
+      type: "bar",
+      height: 350,
+      toolbar: {
+        show: false
+      },
+    },
+    plotOptions: {
+      bar: {
+        borderRadius: 0,
+        horizontal: true,
+        barHeight: "80%",
+        isFunnel: true,
+      },
+    },
+    dataLabels: {
+      enabled: true,
+      formatter: function (val, opt) {
+        return (
+          opt.w.globals.labels[opt.dataPointIndex]
+        );
+      },
+      dropShadow: {
+        enabled: true,
+      },
+      style: {
+        fontSize: "20px",
+      },
+    },
+    series: {
+        name: "Funnel Series",
+        data: [1380, 1100, 990, 880, 740, 548, 330, 200],
+    },
+    title: {
+      text: "Your Top reads",
+      align: "middle",
+      style: {
+        fontSize: "25px",
+      },
+    },
+    xaxis: {
+      categories: [],
+    },
+    legend: {
+      show: false,
+    },
+    colors: [
+      "#FF4560",
+      "#008FFB",
+      "#00E396",
+      "#FEB019",
+      "#775DD0",
+      "#546E7A",
+      "#26A69A",
+      "#D10CE8",
+    ],
+  });
+
+  const [FunnelSeries, setFunnelSeries] = useState([
+    {
+      name: "Funnel Series",
+      data: [1380, 1100, 990, 880, 740, 548, 330, 200],
     },
   ]);
 
@@ -232,6 +312,32 @@ const ChartComponent = ({ user }) => {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
+
+      fetch("http://localhost:8000/data/top_reads/", {
+        method: "GET",
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const topReads = data.top_reads;
+          setFunnelOptions((prevOptions) => ({
+            ...prevOptions,
+            xaxis: {
+              categories: topReads,
+            },
+          }));
+          setFunnelSeries([
+            {
+              name: "Funnel Series",
+              data: data.series,
+            },
+          ]);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
   }, []);
 
   return (
@@ -257,12 +363,21 @@ const ChartComponent = ({ user }) => {
       </div>
 
       <div className="area-chart">
-        <ReactApexChart 
+        <ReactApexChart
           options={areaOptions}
           series={areaSeries}
           type="area"
           height={450}
           width={550}
+        />
+      </div>
+
+      <div className="funnel-chart">
+        <ReactApexChart
+          options={funnelOptions}
+          series={FunnelSeries}
+          type="bar"
+          height={350}
         />
       </div>
     </>

@@ -332,8 +332,9 @@ def get_top_reads(request):
 
         new_data = list(dict(sorted(data.items(), key=lambda x: x[1])).keys())
         data = new_data[: min(3, len(new_data))]
+        series = [10*(len(data)-i) for i in range(len(data))]
 
-        return Response({"top_reads": data}, status=200)
+        return Response({"top_reads": data, "series": series}, status=200)
 
     except Exception as e:
         return Response({"message": str(e)}, status=400)
