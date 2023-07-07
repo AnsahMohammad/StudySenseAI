@@ -16,6 +16,7 @@ from rest_framework.authentication import TokenAuthentication
 from .models import Book, Category, TimeTracking
 from .serializers import CategorySerializer, BookSerializer, TimeTrackingSerializer
 
+
 # pylint: disable=E1101, W0718, W0621, R1710
 def upload_pdf(request):
     """View which takes the input from the form and stores in Db"""
@@ -100,6 +101,7 @@ def categories(request):
             return Response({"message": "Invalid category name"}, status=400)
         except User.DoesNotExist:
             return Response({"message": "Invalid username"}, status=400)
+
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
@@ -344,7 +346,7 @@ def get_top_reads(request):
 
         new_data = list(dict(sorted(data.items(), key=lambda x: x[1])).keys())
         data = new_data[: min(3, len(new_data))]
-        series = [10*(len(data)-i) for i in range(len(data))]
+        series = [10 * (len(data) - i) for i in range(len(data))]
 
         return Response({"top_reads": data, "series": series}, status=200)
 
