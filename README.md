@@ -49,12 +49,17 @@ chmod +x dev.sh
 ![image](./assets/shot2.png) -->
 
 <details>
-  <summary>Screenshots</summary>
-  <p style="display: flex; justify-content: space-between;">
+    <summary>Screenshots</summary>
+    <h1>Screenshots</h1>
     <img src="./assets/shot1.png" alt="ss" style="max-width: 30%;" />
+    <p>Secure authentications</p>
+    <br>
     <img src="./assets/dashboard.png" alt="ss" style="max-width: 30%;" />
+    <p>Detailed Analytics</p>
+    <br>
     <img src="./assets/shot2.png" alt="ss" style="max-width: 30%;" />
-  </p>
+    <p>Distractionless UI</p>
+    <br>
 </details>
 
 ---
