@@ -43,16 +43,17 @@ chmod +x dev.sh
 
 ---
 
-### Screenshots
+<!-- ### Screenshots
 ![image](./assets/shot1.png)
 ![image](./assets/dashboard.png)
-![image](./assets/shot2.png)
-<details>
-    <summary>Screenshots</summary>
-    <img src="./assets/shot1.png" alt="ss"/>
-    <img src="./assets/dashboard.png" alt="ss"/>
-    <img src="./assets/shot2.png" alt="ss"/>
-</details>
+![image](./assets/shot2.png) -->
+
+### Screenshots
+<p style="display: flex; justify-content: space-between;">
+<img src="./assets/shot1.png" alt="ss" style="max-width: 30%;" />
+<img src="./assets/dashboard.png" alt="ss" style="max-width: 30%;" />
+<img src="./assets/shot2.png" alt="ss" style="max-width: 30%;" />
+</p>
 
 ---
 ### How to Give Feedback
