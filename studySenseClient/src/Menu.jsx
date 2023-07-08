@@ -146,41 +146,45 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
         <h1>{selectedItem}</h1>
         <Icon name="trash alternate" size="large" onClick={handleDelete} />
       </MDBContainer>
-    <div className="primary-container">
-      <MDBContainer>
-        <div className="pdf-controls pagination">
-          <button onClick={handleZoomIn}>Zoom In</button>
-          <button onClick={handleZoomOut}>Zoom Out</button>
-          <button onClick={goToPreviousPage} disabled={currentPage === 1}>
-            Previous
-          </button>
-          <span>
-            Page {currentPage} of {numPages}
-          </span>
-          <button onClick={goToNextPage} disabled={currentPage === numPages}>
-            Next
-          </button>
-          <button onClick={handleFinishReading}>Finish Reading</button>
-        </div>
-        <div className="pdf-container" style={{ border: "1px solid #ccc" }}>
-          <Document
-            file={PDFUrl}
-            error={
-              <p>
-                Unable to display PDF. Please{" "}
-                <a href={PDFUrl} target="_blank" rel="noopener noreferrer">
-                  download
-                </a>{" "}
-                it.
-              </p>
-            }
-            onLoadSuccess={onDocumentLoadSuccess}
-          >
-            <Page pageNumber={currentPage} className="pdf-page" scale={zoom} />
-          </Document>
-        </div>
-      </MDBContainer>
-    </div>
+      <div className="primary-container">
+        <MDBContainer>
+          <div className="pdf-controls pagination">
+            <button onClick={handleZoomIn}>Zoom In</button>
+            <button onClick={handleZoomOut}>Zoom Out</button>
+            <button onClick={goToPreviousPage} disabled={currentPage === 1}>
+              Previous
+            </button>
+            <span>
+              Page {currentPage} of {numPages}
+            </span>
+            <button onClick={goToNextPage} disabled={currentPage === numPages}>
+              Next
+            </button>
+            <button onClick={handleFinishReading}>Finish Reading</button>
+          </div>
+          <div className="pdf-container" style={{ border: "1px solid #ccc" }}>
+            <Document
+              file={PDFUrl}
+              error={
+                <p>
+                  Unable to display PDF. Please{" "}
+                  <a href={PDFUrl} target="_blank" rel="noopener noreferrer">
+                    download
+                  </a>{" "}
+                  it.
+                </p>
+              }
+              onLoadSuccess={onDocumentLoadSuccess}
+            >
+              <Page
+                pageNumber={currentPage}
+                className="pdf-page"
+                scale={zoom}
+              />
+            </Document>
+          </div>
+        </MDBContainer>
+      </div>
     </>
   );
 };
@@ -191,12 +195,12 @@ const Home = () => {
   const user = cookies.get("user");
   return (
     <>
-    <MDBContainer className="header-container">
-      <h1>Dashboard</h1>
-    </MDBContainer>
-    <MDBContainer className="graph-container pt-2">
-      <Chart user={user} />
-    </MDBContainer>
+      <MDBContainer className="header-container">
+        <h1>Dashboard</h1>
+      </MDBContainer>
+      <MDBContainer className="graph-container pt-2">
+        <Chart user={user} />
+      </MDBContainer>
     </>
   );
 };
