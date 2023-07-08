@@ -1,4 +1,5 @@
 # <img src="StudySenseAILogo.png" height = "50" width = "50"/> **StudySense.AI**
+
 ![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20macOS%20%7C%20Windows-informational)
 [![Python](https://img.shields.io/badge/Python-%203.8%20%7C%203.9%20%7C%203.10-informational)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green)](https://github.com/gobbledy-gook/report.ai/blob/main/LICENSE)
@@ -7,27 +8,26 @@
 ![Code lint: Pylint](https://img.shields.io/badge/Py%20linting-Pylint-yellow)
 
 ### A PDF Reader to Focus and Gather your data.
-A web application that allows users to easily upload and organize PDF files. 
+
+A web application that allows users to easily upload and organize PDF files.
 With intuitive **folder organization**, users can keep their PDFs in order and focus on each document without distractions. The application also provides **valuable analytics** on reading habits.  
-Users can track the time spent on each PDF, gain insights into daily reading time, and identify popular reads.   
+Users can track the time spent on each PDF, gain insights into daily reading time, and identify popular reads.  
 With secure authentication using tokens, users can confidently manage their PDFs while ensuring **data privacy**.
 
 <br>
 
 ## **Quick Start**
+
 1. The Django rest backend is present in `./study_sense`
 2. The React frontend can be found in `./studySenseClient`
 3. Make sure you've installed necessary packages through `npm install`
 4. Django runs in `port:8000` and React in `port:5173` by default
 5. Open terminal and run
+
 ```bash
 chmod +x dev.sh
 ./dev.sh
 ```
-
-
-
-
 
 ---
 
@@ -43,12 +43,22 @@ chmod +x dev.sh
 
 ---
 
-<!-- ## **Screenshots**
+<!-- ### Screenshots
 ![image](./assets/shot1.png)
 ![image](./assets/dashboard.png)
 ![image](./assets/shot2.png) -->
 
+<details>
+  <summary>Screenshots</summary>
+  <p style="display: flex; justify-content: space-between;">
+    <img src="./assets/shot1.png" alt="ss" style="max-width: 30%;" />
+    <img src="./assets/dashboard.png" alt="ss" style="max-width: 30%;" />
+    <img src="./assets/shot2.png" alt="ss" style="max-width: 30%;" />
+  </p>
+</details>
+
 ---
+
 ### How to Give Feedback
 
 We encourage your feedback! You can share your thoughts with us by:
