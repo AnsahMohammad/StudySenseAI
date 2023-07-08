@@ -18,11 +18,11 @@ With secure authentication using tokens, users can confidently manage their PDFs
 
 ## **Quick Start**
 
-1. The Django rest backend is present in `./study_sense`
+1. The Django REST backend is located in `./study_sense`
 2. The React frontend can be found in `./studySenseClient`
-3. Make sure you've installed necessary packages through `npm install`
-4. Django runs in `port:8000` and React in `port:5173` by default
-5. Open terminal and run
+3. Install the necessary packages by running npm install. `npm install`
+4. Django runs on `port 8000`, and React runs on `port 5173` by default.
+5. Open the terminal and execute the following command:
 
 ```bash
 chmod +x dev.sh
