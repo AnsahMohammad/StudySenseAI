@@ -43,24 +43,12 @@ chmod +x dev.sh
 
 ---
 
-<!-- ### Screenshots
-![image](./assets/shot1.png)
-![image](./assets/dashboard.png)
-![image](./assets/shot2.png) -->
+| Highlight                  | Screenshot             |
+| ---------------------------- | ---------------------- |
+| Secure authentication        | ![Screenshot 1](./assets/shot1.png) |
+| Detailed Analytics           | ![Screenshot 2](./assets/dashboard.png) |
+| Distractionless UI           | ![Screenshot 3](./assets/shot2.png) |
 
-<details>
-    <summary>Screenshots</summary>
-    <h1>Screenshots</h1>
-    <img src="./assets/shot1.png" alt="ss" style="max-width: 30%;" />
-    <h3>Secure authentication</h3>
-    <br>
-    <img src="./assets/dashboard.png" alt="ss" style="max-width: 30%;" />
-    <h3>Detailed Analytics</h3>
-    <br>
-    <img src="./assets/shot2.png" alt="ss" style="max-width: 30%;" />
-    <h3>Distractionless UI</h3>
-    <br>
-</details>
 
 ---
 
