@@ -158,7 +158,7 @@ const ChartComponent = ({ user }) => {
       size: 0,
     },
     title: {
-      text: "1 Week timeline",
+      text: "Weekly timeline",
       align: "center",
       style: {
         fontSize: "25px",
@@ -251,7 +251,7 @@ const ChartComponent = ({ user }) => {
 
   const [FunnelSeries, setFunnelSeries] = useState([
     {
-      name: "Funnel Series",
+      name: "Score",
       data: [1380, 1100, 990, 880, 740, 548, 330, 200],
     },
   ]);
@@ -328,7 +328,7 @@ const ChartComponent = ({ user }) => {
         }));
         setFunnelSeries([
           {
-            name: "Funnel Series",
+            name: "Score",
             data: data.series,
           },
         ]);
@@ -345,8 +345,8 @@ const ChartComponent = ({ user }) => {
           options={donutOptions}
           series={donutOptions.series}
           type="donut"
-          height={450}
-          width={450}
+          height={550}
+          width={500}
         />
       </div>
 
@@ -355,7 +355,7 @@ const ChartComponent = ({ user }) => {
           options={barOptions}
           series={barSeries}
           type="bar"
-          height={400}
+          height={350}
           width={550}
         />
       </div>
@@ -365,7 +365,7 @@ const ChartComponent = ({ user }) => {
           options={areaOptions}
           series={areaSeries}
           type="area"
-          height={450}
+          height={350}
           width={550}
         />
       </div>
@@ -376,6 +376,7 @@ const ChartComponent = ({ user }) => {
           series={FunnelSeries}
           type="bar"
           height={350}
+          width={450}
         />
       </div>
     </>

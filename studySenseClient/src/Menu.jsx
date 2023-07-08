@@ -141,9 +141,12 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
   }, [endTime, startTime, selectedPDFUrl, goHome]);
 
   return (
+    <>
+      <MDBContainer className="header-container">
+        <h1>{selectedItem}</h1>
+        <Icon name="trash alternate" size="large" onClick={handleDelete} />
+      </MDBContainer>
     <div className="primary-container">
-      <h2>{selectedItem}</h2>
-      <Icon name="trash alternate" size="large" onClick={handleDelete} />
       <MDBContainer>
         <div className="pdf-controls pagination">
           <button onClick={handleZoomIn}>Zoom In</button>
@@ -178,6 +181,7 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
         </div>
       </MDBContainer>
     </div>
+    </>
   );
 };
 
@@ -186,10 +190,14 @@ const Home = () => {
   const cookies = new Cookies();
   const user = cookies.get("user");
   return (
-    <MDBContainer className="home">
-      <h1>Hi</h1>
+    <>
+    <MDBContainer className="header-container">
+      <h1>Dashboard</h1>
+    </MDBContainer>
+    <MDBContainer className="graph-container pt-2">
       <Chart user={user} />
     </MDBContainer>
+    </>
   );
 };
 
