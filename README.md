@@ -52,13 +52,13 @@ chmod +x dev.sh
     <summary>Screenshots</summary>
     <h1>Screenshots</h1>
     <img src="./assets/shot1.png" alt="ss" style="max-width: 30%;" />
-    <p>Secure authentications</p>
+    <h3>Secure authentication</h3>
     <br>
     <img src="./assets/dashboard.png" alt="ss" style="max-width: 30%;" />
-    <p>Detailed Analytics</p>
+    <h3>Detailed Analytics</h3>
     <br>
     <img src="./assets/shot2.png" alt="ss" style="max-width: 30%;" />
-    <p>Distractionless UI</p>
+    <h3>Distractionless UI</h3>
     <br>
 </details>
 
