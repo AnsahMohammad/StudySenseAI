@@ -43,7 +43,8 @@ chmod +x dev.sh
 
 ---
 
-| Highlight                  | Screenshot             |
+### Screenshots
+|                   |              |
 | ---------------------------- | ---------------------- |
 | Secure authentication        | ![Screenshot 1](./assets/shot1.png) |
 | Detailed Analytics           | ![Screenshot 2](./assets/dashboard.png) |
