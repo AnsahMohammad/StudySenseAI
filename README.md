@@ -7,7 +7,7 @@
 ![Code lint: ESLint](https://img.shields.io/badge/JS%20linting-ESLint-green)
 ![Code lint: Pylint](https://img.shields.io/badge/Py%20linting-Pylint-yellow)
 
-### A PDF Reader to Focus and Gather your data.
+### Organize and Focus on your PDFs at one place
 
 A web application that allows users to easily upload and organize PDF files.
 With intuitive **folder organization**, users can keep their PDFs in order and focus on each document without distractions. The application also provides **valuable analytics** on reading habits.  
