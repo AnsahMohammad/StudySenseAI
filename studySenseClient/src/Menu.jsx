@@ -34,6 +34,7 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
   const [zoom, setZoom] = useState(1.8);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
+  const [targetPage, setTargetPage] = useState(currentPage);
   const cookies = new Cookies();
   const user = cookies.get("user");
   const PDFUrl = "http://localhost:8000" + selectedPDFUrl;
@@ -105,6 +106,12 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
     setEndTime(new Date());
   };
 
+  const handlePageNavigation = (targetPage) => {
+    if (targetPage >= 1 && targetPage <= numPages) {
+      setCurrentPage(targetPage);
+    }
+  };
+
   useEffect(() => {
     if (endTime !== null) {
       const totalTime = endTime - startTime;
@@ -160,6 +167,15 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
             <button onClick={goToNextPage} disabled={currentPage === numPages}>
               Next
             </button>
+            <MDBInput
+              type="number"
+              value={targetPage}
+              onChange={(e) => setTargetPage(parseInt(e.target.value))}
+            />
+            <span>
+              <button onClick={() => handlePageNavigation(targetPage)}>Go</button>
+            </span>
+          
             <button onClick={handleFinishReading}>Finish Reading</button>
           </div>
           <div className="pdf-container" style={{ border: "1px solid #ccc" }}>
