@@ -37,7 +37,7 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
   const [targetPage, setTargetPage] = useState(currentPage);
   const cookies = new Cookies();
   const user = cookies.get("user");
-  const PDFUrl = "http://localhost:8000" + selectedPDFUrl;
+  const PDFUrl = "https://studysense.onrender.com" + selectedPDFUrl;
 
   useEffect(() => {
     setCurrentPage(1);
@@ -50,7 +50,7 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
     const user = cookies.get("user");
     const token = user.token;
 
-    fetch("http://localhost:8000/delete_file/", {
+    fetch("https://studysense.onrender.com/delete_file/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -123,7 +123,7 @@ const SelectedItem = ({ selectedItem, selectedPDFUrl, goHome }) => {
         end_time: endTime.toISOString(),
       };
 
-      fetch("http://localhost:8000/track_time/", {
+      fetch("https://studysense.onrender.com/track_time/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -294,7 +294,7 @@ function App() {
       formData.append("cat", category);
       formData.append("myfile", file);
 
-      fetch("http://localhost:8000/add_file/", {
+      fetch("https://studysense.onrender.com/add_file/", {
         method: "POST",
         headers: {
           Authorization: `Token ${token}`,
@@ -382,7 +382,7 @@ function App() {
     console.log("New category:", newCategory);
     setCategoriesLength((prevLength) => prevLength + 1);
     setNewCategory("");
-    fetch("http://localhost:8000/register_categories/", {
+    fetch("https://studysense.onrender.com/register_categories/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -417,7 +417,7 @@ function App() {
   const handleDeleteCat = (selectedCat) => {
     const cookies = new Cookies();
 
-    fetch("http://localhost:8000/delete_category/", {
+    fetch("https://studysense.onrender.com/delete_category/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -444,7 +444,7 @@ function App() {
 
   const fetchCategories = () => {
     // fetcging the categories from the server
-    fetch("http://localhost:8000/categories/", {
+    fetch("https://studysense.onrender.com/categories/", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -488,7 +488,7 @@ function App() {
   const logout = (event) => {
     // logic for logut
     event.preventDefault();
-    fetch("http://localhost:8000/api/logout", {
+    fetch("https://studysense.onrender.com/api/logout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

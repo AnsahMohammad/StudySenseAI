@@ -42,7 +42,7 @@ function App() {
       email: email,
     };
 
-    fetch("http://localhost:8000/api/register", {
+    fetch("https://studysense.onrender.com/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

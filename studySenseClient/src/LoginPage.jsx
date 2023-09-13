@@ -37,7 +37,7 @@ function App() {
       username: username,
       password: password,
     };
-    fetch("http://localhost:8000/api/login", {
+    fetch("https://studysense.onrender.com/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

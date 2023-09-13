@@ -257,7 +257,7 @@ const ChartComponent = ({ user }) => {
   ]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/data/category_history_pie/", {
+    fetch("https://studysense.onrender.com/data/category_history_pie/", {
       method: "GET",
       headers: {
         Authorization: `Token ${token}`,
@@ -277,7 +277,7 @@ const ChartComponent = ({ user }) => {
         console.error("Error fetching data:", error);
       });
 
-    fetch("http://localhost:8000/data/timeline_data", {
+    fetch("https://studysense.onrender.com/data/timeline_data", {
       method: "GET",
       headers: {
         Authorization: `Token ${token}`,
@@ -311,7 +311,7 @@ const ChartComponent = ({ user }) => {
         console.error("Error fetching data:", error);
       });
 
-    fetch("http://localhost:8000/data/top_reads/", {
+    fetch("https://studysense.onrender.com/data/top_reads/", {
       method: "GET",
       headers: {
         Authorization: `Token ${token}`,
