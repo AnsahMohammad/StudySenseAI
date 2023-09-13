@@ -59,7 +59,7 @@ function App() {
               secure: true,
             });
             console.log(data);
-            window.location.href = "http://localhost:5173/app/";
+            window.location.href = "https://studysenseai.netlify.app/app/";
           });
         } else {
           console.error("Failed to authenticate");

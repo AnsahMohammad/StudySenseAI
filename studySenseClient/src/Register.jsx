@@ -64,7 +64,7 @@ function App() {
           sameSite: "None",
           secure: true,
         });
-        window.location.href = "http://localhost:5173/";
+        window.location.href = "https://studysenseai.netlify.app/";
       })
       .catch((error) => {
         console.error("Error occurred while registering user:", error);
