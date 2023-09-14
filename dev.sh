@@ -22,6 +22,7 @@ sleep 3
 
 echo -e "${GREEN}Starting React${NC}"
 cd ../studySenseClient
+# npm install --save-dev serve
 # npm install mdb-react-ui-kit
 # npm install react-cookie
 # npm install bootstrap
