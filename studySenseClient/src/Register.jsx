@@ -64,7 +64,7 @@ function App() {
           sameSite: "None",
           secure: true,
         });
-        window.location.href = "http://localhost:5173/";
+        window.location.href = "";
       })
       .catch((error) => {
         console.error("Error occurred while registering user:", error);

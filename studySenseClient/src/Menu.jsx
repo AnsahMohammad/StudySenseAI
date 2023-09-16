@@ -257,7 +257,7 @@ function App() {
   const token = user.token;
   // handling authentication
   if (!token) {
-    window.location.href = "http://localhost:5173/";
+    window.location.href = "";
   }
 
   const [selectedPDFUrl, setSelectedPDFUrl] = useState(null);
